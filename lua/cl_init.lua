@@ -20,14 +20,17 @@ column:SetHeight( ScrH() / 3 )
 
 function column:Draw()
 
-    draw.RoundedBox( 0, self.x, self.y, self.width, self.height, Color( 0, 0, 0, 100 ) )
+    draw.RoundedBox( 0, self.x, self.y, self.width, self.height, Color( 0, 0, 0, 200 ) )
 end
 
 
+
+-- Simple HUDPaint Function
 function HUDPaint_custom()
 
     -- Draw our new grid
     grid:Draw()
 end
 
+-- Hook custom function into HUDPaint
 hook.Add( 'HUDPaint', 'HUDPaint_custom', HUDPaint_custom )

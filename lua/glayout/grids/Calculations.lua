@@ -1,0 +1,26 @@
+----------------------------
+-- CALCULATIONS FOR GRIDS --
+----------------------------
+GridMath = {}
+
+
+-- Calculates the margins of a Row or Column
+function GridMath.CalcMargin( node )
+
+	local m = node.margin
+
+	-- Re-Calculate Size
+	node.width 	= node.start.w - ( m.right + m.left )
+	node.height = node.start.h - ( m.top 	+ m.bottom )
+
+	-- Re-Calculate Position
+	node.x = node.start.x + ( m.left 	- m.right )
+	node.y = node.start.y + ( m.top 	- m.bottom )
+end
+
+
+-- Calculates the padding of a Row or Column
+function GridMath.CalcPadding( node )
+
+
+end
