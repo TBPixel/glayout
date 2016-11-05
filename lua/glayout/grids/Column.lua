@@ -1,36 +1,29 @@
 ------------------
 -- Grid Columns --
 ------------------
-Col	= Base:Create()
-
-
-------------------------
--- Columns Properties --
-------------------------
-Col.columns	= {}
-	Col.columns.width = 0
-	
+Col = Base:Create()
+    
 
 -----------------
 -- CONSTRUCTOR --
 -----------------
 function Col:Create( id, row )
 
-	-- Prepares a copy of the original table for instantiation
-	local new = table.Copy( Col )
+    -- Prepares a copy of the original table for instantiation
+    local new = table.Copy( Col )
 
-	-- Declares an id for the column instance
-	new.id 		= id
-	-- Declares an id for the parent row
-	new.row 	= row
+    -- Declares an id for the column instance
+    new.id      = id
+    -- Declares an id for the parent row
+    new.row     = row
 
-	-- Returns new instance
-	if IsValid( new ) then
+    -- Returns new instance
+    if IsValid( new ) then
 
-		return new
-	else
-		return false
-	end
+        return new
+    else
+        return false
+    end
 end
 
 
@@ -42,19 +35,19 @@ end
 -- Sets the number of columns to span in a row
 function Col:SetSpan( span )
 
-	-- Assert for potential errors
-	assert( span >= 0, '\'span\' cannot be less than 0!' )
+    -- Assert for potential errors
+    assert( span >= 0, '\'span\' cannot be less than 0!' )
 
-	self.span = span
+    self.span = span
 end
 
 function Col:Shift( span )
 
-	-- Assert for potential errors
-	assert( isnumber( span ), '\'span\' must be a whole number!' )
+    -- Assert for potential errors
+    assert( isnumber( span ), '\'span\' must be a whole number!' )
 
-	local size = self.columns.width * span
-	self:SetX( size )
+    local size = self.columns.width * span
+    self:SetX( size )
 end
 
 

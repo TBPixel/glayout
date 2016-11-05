@@ -8,11 +8,7 @@ Grid = Base:Create()
 ---------------------
 
 -- Grid Containers for remembering data
-Grid.rows		= {}
-Grid.columns	= {}
-	Grid.columns.count 	= 12
-	Grid.columns.width 	= 0
-
+Grid.rows       = {}
 
 
 -------------
@@ -22,23 +18,34 @@ Grid.columns	= {}
 -- Sets the number of columns explicitly
 function Grid:SetColumnCount( columns )
 
-	assert( columns > 0, 'Grid Columns must be greater than 0!' )
-	self.columns.count = columns
-end
+    assert( columns > 0, 'Grid Columns must be greater than 0!' )
+    self.columns.count = columns
 
+    for _, row in ipairs( self.rows ) do
+        
+        row.columns.count = columns
+    end
+end
 
 -- Calculates the width of each column
 function Grid:CalcWidthOfColumns()
 
-	-- Ensures width of Grid & the number of columns is greater than 0
-	if ( self.width <= 0 ) or ( self.columns.count <= 0 ) then return false end
+    -- Ensures width of Grid & the number of columns is greater than 0
+    if ( self.width <= 0 ) or ( self.columns.count <= 0 ) then return false end
 
-	-- The width of each column, rounded down the third decimal place
-	self.columns.width = math.Round( self.width / self.columns.count, 3 )
+    -- The width of each column, rounded down the third decimal place
+    self.columns.width = math.Round( self.width / self.columns.count, 3 )
 
-	return self.columns.width
+    if self.rows then
+
+        for _, row in ipairs( self.rows ) do
+            
+            row.columns.width = self.columns.width
+        end
+    end
+
+    return self.columns.width
 end
-
 
 
 -------------
@@ -47,7 +54,7 @@ end
 
 function Grid:GetColumnCount()
 
-	return self.columns.count
+    return self.columns.count
 end
 
 
@@ -58,7 +65,7 @@ end
 -- Create new rows in the Grid using the Row:Create constructor
 function Grid:CreateRow()
 
-	local id = #Grid.rows + 1
+    local id = #Grid.rows + 1
 
     -- Creates a new row instance for use
     local new = Row:Create()
@@ -67,7 +74,7 @@ function Grid:CreateRow()
     new.id = id
 
     -- Sets sizing and positioning based on parent grid
-    new:SetWidth( self.width )
+    new:SetSize( self.width, self.height )
     new:SetPos( self.x, self.y )
 
     -- Pass width of columns to new Row
@@ -76,15 +83,15 @@ function Grid:CreateRow()
     -- Ensures new instance is valid
     if IsValid( new ) then
 
-    	-- Stores Row in current grid
-    	self.rows[ id ] = new
+        -- Stores Row in current grid
+        self.rows[ id ] = new
 
-    	-- Returns new Row Instance
-    	return new
+        -- Returns new Row Instance
+        return new
     else
 
-    	-- Returns false ( something went wrong! )
-    	return false
+        -- Returns false ( something went wrong! )
+        return false
     end
 end
 
@@ -92,8 +99,8 @@ end
 
 function Grid:Draw()
 
-	for _, row in ipairs( self.rows ) do
+    for _, row in ipairs( self.rows ) do
 
-		if row.Draw then row:Draw() end
-	end
+        if row.Draw then row:Draw() end
+    end
 end
