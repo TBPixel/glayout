@@ -7,7 +7,9 @@ Col	= Base:Create()
 ------------------------
 -- Columns Properties --
 ------------------------
-
+Col.columns	= {}
+	Col.columns.width = 0
+	
 
 -----------------
 -- CONSTRUCTOR --
@@ -44,6 +46,15 @@ function Col:SetSpan( span )
 	assert( span >= 0, '\'span\' cannot be less than 0!' )
 
 	self.span = span
+end
+
+function Col:Shift( span )
+
+	-- Assert for potential errors
+	assert( isnumber( span ), '\'span\' must be a whole number!' )
+
+	local size = self.columns.width * span
+	self:SetX( size )
 end
 
 

@@ -30,7 +30,22 @@ function Row:CreateCol( span )
 
     -- Setup new column
     new:SetWidth( self.columns.width * span )
-    new:SetPos( self.x, self.y )
+
+    -- Adjust for margins
+    local pos = {}
+        pos.x = self.x
+        pos.y = self.y
+
+    for _, col in ipairs( self.columns.nodes ) do
+
+        local m = col.margin.left + col.margin.right
+        pos.x = pos.x + col.width + m
+    end
+
+    new:SetPos( pos.x, pos.y )
+
+    -- Send column width to new child
+    new.columns.width = self.columns.width
 
     -- Ensures new instance is valid
     if IsValid( new ) then

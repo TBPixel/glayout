@@ -10,7 +10,7 @@ Grid = Base:Create()
 -- Grid Containers for remembering data
 Grid.rows		= {}
 Grid.columns	= {}
-	Grid.columns.count 	= 3
+	Grid.columns.count 	= 12
 	Grid.columns.width 	= 0
 
 
