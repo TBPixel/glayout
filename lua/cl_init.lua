@@ -22,15 +22,16 @@ local cols = {}
 -- Create a column within our row
 cols[1] = row:CreateCol( 3 )
 
--- Stores player in local variable
-local ply = LocalPlayer()
-local hp = ( ply:Health() / ply:GetMaxHealth() )
 
--- Draw everything we want to draw within this column
-cols[1].Draw = function( self )
+-- Fix Player Entity Not Being Valid
+hook.Add( 'InitPostEntity', 'PlyIsValid', function() 
 
-    -- Ensures Player is Valid for drawing stats
-    if IsValid( ply ) then
+    -- Stores player in local variable
+    local ply = LocalPlayer()
+    local hp = ( ply:Health() / ply:GetMaxHealth() )
+
+    -- Draw everything we want to draw within this column
+    cols[1].Draw = function( self )
 
         -- Linear Interpolation on Health Bar
         hp = Lerp( 10 * FrameTime(), hp, ply:Health() / ply:GetMaxHealth() )
@@ -38,19 +39,18 @@ cols[1].Draw = function( self )
         -- Draw Health Bar
         draw.RoundedBox( 0, self.x, self.y, self.width * hp, self.height, Color( 255, 60, 60, 200 ) )
     end
-end
 
 
--- Create a column within our row
-cols[2] = row:CreateCol( 3 )
-cols[2]:Shift( 9 )
+    -- Create a column within our row
+    cols[2] = row:CreateCol( 3 )
+    cols[2]:Shift( 9 )
 
--- Draw everything we want to draw within this column
-cols[2].Draw = function( self )
+    -- Draw everything we want to draw within this column
+    cols[2].Draw = function( self )
 
-    draw.RoundedBox( 0, self.x, self.y, self.width, self.height, Color( 0, 0, 0, 200 ) )
-end
-
+        draw.RoundedBox( 0, self.x, self.y, self.width, self.height, Color( 0, 0, 0, 200 ) )
+    end
+end)
 
 -- Simple HUDPaint Function
 function HUDPaint_custom()
