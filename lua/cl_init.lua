@@ -1,5 +1,3 @@
-include 'glayout/glayout.lua'
-
 -- Setup our new grid
 local grid = Grid:Create()
 

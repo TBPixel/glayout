@@ -1,0 +1,10 @@
+{
+    "title"     :   "GLayout Demo",
+    "type"      :   "ServerContent",
+    "tags"      :   [ "HUD", "tools" ],
+    "ignore"    :
+    [
+        "*.gitignore",
+        "*.md"
+    ]
+}
