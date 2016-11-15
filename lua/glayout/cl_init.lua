@@ -1,5 +1,4 @@
--- Ensures player is a valid entity
-if IsValid( LocalPlayer() ) then
+function DrawHUD()
 
     -- Setup our new grid
     local grid = Grid:Create()
@@ -60,6 +59,13 @@ if IsValid( LocalPlayer() ) then
     -- Hook custom function into HUDPaint
     hook.Add( 'HUDPaint', 'HUDPaint_custom', HUDPaint_custom )
 end
+
+
+-- Draws HUD if LocalPlayer() is valid -- Used mainly for Lua Auto Refresh
+if IsValid( LocalPlayer() ) then DrawHUD() end
+
+-- Draws HUD if InitPostEntity runs
+hook.Add( 'InitPostEntity', 'PlayerIsValid', DrawHUD )
 
 
 --------------------------------------
