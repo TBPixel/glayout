@@ -1,32 +1,35 @@
--- Setup our new grid
-local grid = Grid:Create()
+local isPlayerValid = false
 
-    -- Declare our sizing & positioning for our new grid
-    grid:SetSize( ScrW(), ScrH() / 12 )
-    grid:SetPos( 0, ScrH() - ( ScrH() / 12 ) )
+-- Ensures player is a valid entity
+if isPlayerValid then
 
-    -- Declare the number of columns we'd like to use (DEFAULT: 12)
-    grid:SetColumnCount( 12 )
+    -- Setup our new grid
+    local grid = Grid:Create()
 
+        -- Declare our sizing & positioning for our new grid
+        grid:SetSize( ScrW(), ScrH() / 12 )
+        grid:SetPos( 0, ScrH() - ( ScrH() / 12 ) )
 
--- Create a row within our grid
-local row = grid:CreateRow()
-row:SetMargin( { 0, 0, 16, 16 } )
-
--- Create Table of columns
-local cols = {}
+        -- Declare the number of columns we'd like to use (DEFAULT: 12)
+        grid:SetColumnCount( 12 )
 
 
--- Create a column within our row
-cols[1] = row:CreateCol( 3 )
+    -- Create a row within our grid
+    local row = grid:CreateRow()
+        row:SetMargin( { 0, 0, 16, 16 } )
 
-
--- Fix Player Entity Not Being Valid
-hook.Add( 'InitPostEntity', 'PlyIsValid', function() 
 
     -- Stores player in local variable
     local ply = LocalPlayer()
     local hp = ( ply:Health() / ply:GetMaxHealth() )
+
+
+    -- Create Table of columns
+    local cols = {}
+
+
+    -- Create a column within our row
+    cols[1] = row:CreateCol( 3 )
 
     -- Draw everything we want to draw within this column
     cols[1].Draw = function( self )
@@ -48,17 +51,25 @@ hook.Add( 'InitPostEntity', 'PlyIsValid', function()
 
         draw.RoundedBox( 0, self.x, self.y, self.width, self.height, Color( 0, 0, 0, 200 ) )
     end
-end)
 
--- Simple HUDPaint Function
-function HUDPaint_custom()
+    -- Simple HUDPaint Function
+    function HUDPaint_custom()
 
-    -- Draw our new grid
-    grid:Draw()
+        -- Draw our new grid
+        grid:Draw()
+    end
+
+    -- Hook custom function into HUDPaint
+    hook.Add( 'HUDPaint', 'HUDPaint_custom', HUDPaint_custom )
 end
 
--- Hook custom function into HUDPaint
-hook.Add( 'HUDPaint', 'HUDPaint_custom', HUDPaint_custom )
+
+-- Fix Player Entity Not Being Valid
+hook.Add( 'InitPostEntity', 'PlyIsValid', function() 
+
+    isPlayerValid = true
+end)
+
 
 
 
