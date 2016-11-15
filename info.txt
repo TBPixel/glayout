@@ -1,0 +1,12 @@
+"AddonInfo"
+{
+    "name"              "GLayout"
+    "version"           "0.1.0"
+    "up_date"           "11/14/16"
+    "author_name"           "Tony Barry"
+    "author_email"          "tmpbpixel@gmail.com"
+    "author_url"            "http://tbpixel.com/"
+    "info"              "Tools for building HUD Layouts"
+}
+
+

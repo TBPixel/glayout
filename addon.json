@@ -1,10 +1,13 @@
 {
-    "title"     :   "GLayout Demo",
+    "title"     :   "GLayout",
     "type"      :   "ServerContent",
-    "tags"      :   [ "HUD", "tools" ],
+    "tags"      :   [ "fun", "build" ],
     "ignore"    :
     [
-        "*.gitignore",
-        "*.md"
+        ".git*",
+        "*.md",
+        "LICENSE",
+        "README.md",
+        "CHANGELOG.md"
     ]
 }
