@@ -1,7 +1,5 @@
-local isPlayerValid = false
-
 -- Ensures player is a valid entity
-if isPlayerValid then
+if IsValid( LocalPlayer() ) then
 
     -- Setup our new grid
     local grid = Grid:Create()
@@ -62,15 +60,6 @@ if isPlayerValid then
     -- Hook custom function into HUDPaint
     hook.Add( 'HUDPaint', 'HUDPaint_custom', HUDPaint_custom )
 end
-
-
--- Fix Player Entity Not Being Valid
-hook.Add( 'InitPostEntity', 'PlyIsValid', function() 
-
-    isPlayerValid = true
-end)
-
-
 
 
 --------------------------------------
