@@ -47,11 +47,11 @@ function Col:Shift( span )
     assert( isnumber( span ), '\'span\' must be a whole number!' )
 
     local start = self.columnsStart * self.columns.width
-    local size = self.columns.width * span
+    local dist  = self.columns.width * span
 
-    size = start + size
+    dist = start + dist
 
-    self:SetX( size )
+    self:SetX( dist )
 end
 
 

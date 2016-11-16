@@ -11,6 +11,28 @@ Grid = Base:Create()
 Grid.rows       = {}
 
 
+-----------------
+-- CONSTRUCTOR --
+-----------------
+function Grid:Create( id )
+
+    if not id then id = nil end
+
+    -- Prepares a copy of the original table for instantiation
+    local new = table.Copy( self )
+
+    new.id = id
+
+    -- Returns new instance
+    if IsValid( new ) then
+
+        return new
+    else
+        return false
+    end
+end
+
+
 -------------
 -- SETTERS --
 -------------
@@ -20,11 +42,7 @@ function Grid:SetColumnCount( columns )
 
     assert( columns > 0, 'Grid Columns must be greater than 0!' )
     self.columns.count = columns
-
-    for _, row in ipairs( self.rows ) do
-        
-        row.columns.count = columns
-    end
+    self:CalcWidthOfColumns()
 end
 
 -- Calculates the width of each column
@@ -36,14 +54,7 @@ function Grid:CalcWidthOfColumns()
     -- The width of each column, rounded down the third decimal place
     self.columns.width = math.Round( self.width / self.columns.count, 3 )
 
-    if self.rows then
-
-        for _, row in ipairs( self.rows ) do
-            
-            row.columns.width = self.columns.width
-        end
-    end
-
+    -- Return new width
     return self.columns.width
 end
 
@@ -78,7 +89,8 @@ function Grid:CreateRow()
     new:SetPos( self.x, self.y )
 
     -- Pass width of columns to new Row
-    new.columns.width = self:CalcWidthOfColumns()
+    new.columns.count = self.columns.count
+    new:CalcWidthOfColumns()
 
     -- Ensures new instance is valid
     if IsValid( new ) then

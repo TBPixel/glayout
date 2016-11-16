@@ -41,6 +41,7 @@ function Row:CreateCol( span )
         x = x + col.width + ( col.margin.left + col.margin.right )
     end
 
+    -- Set Initial Position
     new:SetPos( x, self.y )
 
     -- Send column width to new child
@@ -71,19 +72,12 @@ function Row:CalcWidthOfColumns()
     -- The width of each column, rounded down the third decimal place
     self.columns.width = math.Round( self.width / self.columns.count, 3 )
 
-    if self.columns.nodes then
-
-        for _, col in ipairs( self.columns.nodes ) do
-            
-            col.columns.width = self.columns.width
-        end
-    end
-
+    -- Return new width
     return self.columns.width
 end
 
 
--- 
+-- Calculates the starting column for a newly added column
 function Row:CalcColumnStartingColumn()
 
     local start = 0
