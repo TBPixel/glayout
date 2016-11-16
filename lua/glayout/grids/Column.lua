@@ -2,7 +2,7 @@
 -- Grid Columns --
 ------------------
 Col = Base:Create()
-    
+
 
 -----------------
 -- CONSTRUCTOR --
@@ -46,7 +46,11 @@ function Col:Shift( span )
     -- Assert for potential errors
     assert( isnumber( span ), '\'span\' must be a whole number!' )
 
+    local start = self.columnsStart * self.columns.width
     local size = self.columns.width * span
+
+    size = start + size
+
     self:SetX( size )
 end
 

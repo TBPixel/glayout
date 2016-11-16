@@ -1,3 +1,6 @@
+-----------------------------------
+--   Our HUD Callable function   --
+-----------------------------------
 function DrawHUD()
 
     -- Setup our new grid
@@ -41,7 +44,7 @@ function DrawHUD()
 
     -- Create a column within our row
     cols[2] = row:CreateCol( 3 )
-    cols[2]:Shift( 9 )
+    cols[2]:Shift( 6 )
 
     -- Draw everything we want to draw within this column
     cols[2].Draw = function( self )
@@ -61,11 +64,17 @@ function DrawHUD()
 end
 
 
+
+----------------------------------
+--   HUD Function Should Call   --
+----------------------------------
+
 -- Draws HUD if LocalPlayer() is valid -- Used mainly for Lua Auto Refresh
 if IsValid( LocalPlayer() ) then DrawHUD() end
 
 -- Draws HUD if InitPostEntity runs
 hook.Add( 'InitPostEntity', 'PlayerIsValid', DrawHUD )
+
 
 
 --------------------------------------

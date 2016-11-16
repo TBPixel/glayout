@@ -26,6 +26,10 @@ function Row:CreateCol( span )
     -- Creates a new row instance for use
     local new = Col:Create( id, self.id )
 
+    -- Set starting column count
+    new.span = span
+    new.columnsStart = self:CalcColumnStartingColumn()
+
     -- Setup new column
     new:SetSize( self.columns.width * span, self.height )
 
@@ -47,6 +51,7 @@ function Row:CreateCol( span )
 
         -- Stores column node in Row for reference later
         self.columns.nodes[ id ] = new
+
         -- Returns new Row Instance
         return new
     else
@@ -75,6 +80,20 @@ function Row:CalcWidthOfColumns()
     end
 
     return self.columns.width
+end
+
+
+-- 
+function Row:CalcColumnStartingColumn()
+
+    local start = 0
+
+    for _, column in pairs( self.columns.nodes ) do
+        
+        start = start + column.span
+    end
+
+    return start
 end
 
 
