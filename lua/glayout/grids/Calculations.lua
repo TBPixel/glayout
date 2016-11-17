@@ -4,26 +4,44 @@
 GridMath = {}
 
 
--- Calculates the margins of a Row or Column
-function GridMath.CalcMargin( node )
+-- Calculates Box Model --
+function GridMath.CalcBoxModel( node )
 
-    local m = node.margin
+    -- Get Box Model Properties
+    local BoxModel  = node.box
+        local m     = BoxModel.margin
+        local p     = BoxModel.padding
+        local c     = BoxModel.content
 
-    -- Re-Calculate Size
-    node.width  = node.start.w - ( m.right  + m.left )
-    node.height = node.start.h - ( m.top    + m.bottom )
+    local s = node.start
 
-    -- Re-Calculate Position
-    node.x = node.start.x + ( m.left )
-    node.y = node.start.y + ( m.top )
 
-    -- Calculate Column size if relevant
+    -- Caclulate Content Positioning
+    c.x             = p.left    + p.right
+    c.y             = p.top     + p.bottom
+
+
+    local x         = s.x + m.left
+    local y         = s.y + m.top
+    
+
+    -- Calculate Box Model Size
+    local width     = c.width   - ( m.left + m.right )
+    local height    = c.height  - ( m.top  + m.bottom )
+
+
+    -- Set Positioning
+    node.x          = x
+    node.y          = y
+    
+    -- Set Sizing
+    node.width      = width
+    node.height     = height
+
+    -- Set Content Positioning
+    node.content.x  = c.x + x
+    node.content.y  = c.y + y
+
+    -- Re Caculate Columns if relevant
     if node.CalcWidthOfColumns then node:CalcWidthOfColumns() end    
-end
-
-
--- Calculates the padding of a Row or Column
-function GridMath.CalcPadding( node )
-
-
 end

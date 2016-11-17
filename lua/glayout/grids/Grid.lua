@@ -52,7 +52,7 @@ function Grid:CalcWidthOfColumns()
     if ( self.width <= 0 ) or ( self.columns.count <= 0 ) then return false end
 
     -- The width of each column, rounded down the third decimal place
-    self.columns.width = math.Round( self.width / self.columns.count, 3 )
+    self.columns.width = math.Round( self.width / self.columns.count )
 
     -- Return new width
     return self.columns.width
@@ -85,11 +85,15 @@ function Grid:CreateRow()
     new.id = id
 
     -- Sets sizing and positioning based on parent grid
-    new:SetSize( self.width, self.height )
-    new:SetPos( self.x, self.y )
+    new:SetStartSize( self.width, self.height )
+    new:SetStartPos( self.x, self.y )
 
-    -- Pass width of columns to new Row
+    new:ReCalculate()
+
+
+    -- Pass Column Count to new row
     new.columns.count = self.columns.count
+    -- Calculate the width of the columns on the new row ( accounts for Grid Margins )
     new:CalcWidthOfColumns()
 
     -- Ensures new instance is valid

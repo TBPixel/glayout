@@ -11,27 +11,39 @@ Base = {}
 -- Columns Properties
 Base.columns = {}
     Base.columns.count  = 12
-    Base.columns.width = 0
+    Base.columns.width  = 0
 
 
--- Margins between items
-Base.margin = {}
-    Base.margin.top     = 0
-    Base.margin.right   = 0
-    Base.margin.bottom  = 0
-    Base.margin.left    = 0
+-- BOX MODEL --
+Base.box = {}
+    -- Margins --
+    Base.box.margin     = {}
+        Base.box.margin.top     = 0
+        Base.box.margin.right   = 0
+        Base.box.margin.bottom  = 0
+        Base.box.margin.left    = 0
+    -- Padding --
+    Base.box.padding    = {}
+        Base.box.padding.top    = 0
+        Base.box.padding.right  = 0
+        Base.box.padding.bottom = 0
+        Base.box.padding.left   = 0
+    -- Content --
+    Base.box.content    = {}
+        Base.box.content.width  = 0
+        Base.box.content.height = 0
+        Base.box.content.x      = 0
+        Base.box.content.y      = 0
 
--- Padding within item
-Base.padding = {}
-    Base.padding.top    = 0
-    Base.padding.right  = 0
-    Base.padding.bottom = 0
-    Base.padding.left   = 0
 
--- Remember Initial Settings
+-- Content Positioning
+Base.content = {}
+    Base.content.x = 0
+    Base.content.y = 0
+
+
+-- Starting Positioning
 Base.start = {}
-    Base.start.w = 0
-    Base.start.h = 0
     Base.start.x = 0
     Base.start.y = 0
 
@@ -75,10 +87,8 @@ end
 -- Re-Calculates Width & Position based on Margin & Padding
 function Base:ReCalculate()
 
-    -- Re-Calculate Margins
-    GridMath.CalcMargin ( self )
-    -- Re-Calculates Padding
-    GridMath.CalcPadding( self )
+    -- Re-Calculate Box Model
+    GridMath.CalcBoxModel( self )
 end
 
 
@@ -138,10 +148,8 @@ end
 
         assert( isnumber( value ), 'Argument 1 must be a number!' )
 
-        self.margin.top = value
-
-        -- Re-Calculate Size with new margins
-        GridMath.CalcMargin ( self )
+        self.box.margin.top = value
+        self:ReCalculate()
     end
 
 
@@ -150,10 +158,8 @@ end
 
         assert( isnumber( value ), 'Argument 1 must be a number!' )
 
-        self.margin.right = value
-
-        -- Re-Calculate Size with new margins
-        GridMath.CalcMargin ( self )
+        self.box.margin.right = value
+        self:ReCalculate()
     end
 
 
@@ -162,10 +168,8 @@ end
 
         assert( isnumber( value ), 'Argument 1 must be a number!' )
 
-        self.margin.bottom = value
-
-        -- Re-Calculate Size with new margins
-        GridMath.CalcMargin ( self )
+        self.box.margin.bottom = value
+        self:ReCalculate()
     end
 
 
@@ -174,10 +178,8 @@ end
 
         assert( isnumber( value ), 'Argument 1 must be a number!' )
 
-        self.margin.left = value
-
-        -- Re-Calculate Size with new margins
-        GridMath.CalcMargin ( self )
+        self.box.margin.left = value
+        self:ReCalculate()
     end
 
 
@@ -237,10 +239,8 @@ end
 
         assert( isnumber( value ), 'Argument 1 must be a number!' )
 
-        self.padding.top = value
-
-        -- Re-Calculates Padding
-        GridMath.CalcPadding( self )
+        self.box.padding.top = value
+        self:ReCalculate()
     end
 
 
@@ -249,10 +249,8 @@ end
 
         assert( isnumber( value ), 'Argument 1 must be a number!' )
 
-        self.padding.right = value
-
-        -- Re-Calculates Padding
-        GridMath.CalcPadding( self )
+        self.box.padding.right = value
+        self:ReCalculate()
     end
 
 
@@ -261,10 +259,8 @@ end
 
         assert( isnumber( value ), 'Argument 1 must be a number!' )
 
-        self.padding.bottom = value
-
-        -- Re-Calculates Padding
-        GridMath.CalcPadding( self )
+        self.box.padding.bottom = value
+        self:ReCalculate()
     end
 
 
@@ -273,10 +269,8 @@ end
 
         assert( isnumber( value ), 'Argument 1 must be a number!' )
 
-        self.padding.left = value
-
-        -- Re-Calculates Padding
-        GridMath.CalcPadding( self )
+        self.box.padding.left = value
+        self:ReCalculate()
     end
 
 
@@ -284,11 +278,36 @@ end
     -- SET SIZE --
     --------------
     -- Sets the full width of the Base explicitly
+    function Base:SetStartWidth( width )
+
+        assert( width >= 0, 'Width must be 0 or greater!' )
+        self.box.content.width = width
+        self:ReCalculate()
+    end
+
+
+    -- Sets the full height of the Base explicilty
+    function Base:SetStartHeight( height )
+
+        assert( height >= 0, 'Height must be 0 or greater!' )
+        self.box.content.height = height
+        self:ReCalculate()
+    end
+
+
+    -- Runs methods for setting both the width & height of the Base
+    function Base:SetStartSize( width, height )
+
+        self:SetStartWidth( width )
+        self:SetStartHeight( height )
+    end
+
+
+    -- Sets the full width of the Base explicitly
     function Base:SetWidth( width )
 
         assert( width >= 0, 'Width must be 0 or greater!' )
-        self.start.w = width
-
+        self.width = width
         self:ReCalculate()
     end
 
@@ -297,8 +316,7 @@ end
     function Base:SetHeight( height )
 
         assert( height >= 0, 'Height must be 0 or greater!' )
-        self.start.h = height
-
+        self.height = height
         self:ReCalculate()
     end
 
@@ -318,8 +336,7 @@ end
     function Base:SetX( x )
 
         assert( isnumber( x ), '\'X\' must be a number!' )
-        self.start.x = x
-
+        self.box.content.x = x
         self:ReCalculate()
     end
 
@@ -328,8 +345,7 @@ end
     function Base:SetY( y )
 
         assert( isnumber( y ), '\'Y\' must be a number!' )
-        self.start.y = y
-
+        self.box.content.y = y
         self:ReCalculate()
     end
 
@@ -341,6 +357,31 @@ end
         self:SetY( y )
     end
 
+
+    ------------------------
+    -- SET START POSITION --
+    ------------------------
+    function Base:SetStartX( x )
+        
+        assert( isnumber( x ), '\'X\' must be a number!' )
+        self.start.x = x
+        self:ReCalculate()
+    end
+
+
+    function Base:SetStartY( y )
+        
+        assert( isnumber( y ), '\'Y\' must be a number!' )
+        self.start.y = y
+        self:ReCalculate()
+    end
+
+
+    function Base:SetStartPos( x, y )
+
+        self:SetStartX( x )
+        self:SetStartY( y )
+    end
 
 
 -------------

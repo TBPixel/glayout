@@ -26,26 +26,32 @@ function Row:CreateCol( span )
     -- Creates a new row instance for use
     local new = Col:Create( id, self.id )
 
+
     -- Set starting column count
-    new.span = span
+    new:SetSpan( span )
     new.columnsStart = self:CalcColumnStartingColumn()
 
     -- Setup new column
-    new:SetSize( self.columns.width * span, self.height )
+    new:SetStartSize( self.columns.width * span, self.height )
 
-    -- Adjust for multi-column margins
     local x = self.x
 
+    -- Adjust for multi-column margins
     for _, col in ipairs( self.columns.nodes ) do
 
-        x = x + col.width + ( col.margin.left + col.margin.right )
+        x = x + col:GetWidth() + ( col.box.margin.left + col.box.margin.right )
     end
 
     -- Set Initial Position
-    new:SetPos( x, self.y )
+    new:SetStartPos( x, self.y )
+
+
+    new:ReCalculate()
+
 
     -- Send column width to new child
     new.columns.width = self.columns.width
+
 
     -- Ensures new instance is valid
     if IsValid( new ) then
@@ -70,8 +76,8 @@ function Row:CalcWidthOfColumns()
     if ( self.width <= 0 ) or ( self.columns.count <= 0 ) then return false end
 
     -- The width of each column, rounded down the third decimal place
-    self.columns.width = math.Round( self.width / self.columns.count, 3 )
-
+    self.columns.width = math.Round( self.width / self.columns.count )
+    
     -- Return new width
     return self.columns.width
 end

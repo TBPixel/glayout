@@ -3,54 +3,57 @@
 -----------------------------------
 function DrawHUD()
 
-    -- Setup our new grid
+    -- Create our new grid
     local grid = Grid:Create()
 
-        -- Declare our sizing & positioning for our new grid
-        grid:SetSize( ScrW(), ScrH() / 12 )
-        grid:SetPos( 0, ScrH() - ( ScrH() / 12 ) )
-
-        -- Declare the number of columns we'd like to use (DEFAULT: 12)
-        grid:SetColumnCount( 12 )
+        -- Declare Sizing & Positioning of Grid
+        grid:SetStartSize( ScrW(), ScrH() / 10 )
+        grid:SetStartPos( 0, ScrH() - ( ScrH() / 10 ) )
 
 
-    -- Create a row within our grid
+    -- Create a grid row
     local row = grid:CreateRow()
-        row:SetMargin( { 0, 0, 16, 16 } )
+        -- Sets Margins for Row in order: Top, Right, Bottom, Left
+        row:SetMargin( {0, 20, 20, 20} )
+
+
+    -- Create Columns
+    local col = {}
+
+    -- Create First Column
+    col[1] = row:CreateCol( 3 )
+
+    -- Sets Margin Right for column
+    col[1]:SetMarginRight( 10 )
 
 
     -- Stores player in local variable
     local ply = LocalPlayer()
     local hp = ( ply:Health() / ply:GetMaxHealth() )
 
-
-    -- Create Table of columns
-    local cols = {}
-
-
-    -- Create a column within our row
-    cols[1] = row:CreateCol( 3 )
-
-    -- Draw everything we want to draw within this column
-    cols[1].Draw = function( self )
+    -- Draw what you want inside the column
+    col[1].Draw = function( self )
 
         -- Linear Interpolation on Health Bar
         hp = Lerp( 10 * FrameTime(), hp, ply:Health() / ply:GetMaxHealth() )
 
-        -- Draw Health Bar
         draw.RoundedBox( 0, self.x, self.y, self.width * hp, self.height, Color( 255, 60, 60, 200 ) )
     end
 
 
-    -- Create a column within our row
-    cols[2] = row:CreateCol( 3 )
-    cols[2]:Shift( 6 )
+    -- Create Second Column
+    col[2] = row:CreateCol( 3 )
+    col[2]:Shift( 6 )
 
-    -- Draw everything we want to draw within this column
-    cols[2].Draw = function( self )
+    -- Sets Margin Left for column
+    col[2]:SetMarginLeft( 10 )
+
+    -- Draw what you want inside the column
+    col[2].Draw = function( self )
 
         draw.RoundedBox( 0, self.x, self.y, self.width, self.height, Color( 0, 0, 0, 200 ) )
     end
+
 
     -- Simple HUDPaint Function
     function HUDPaint_custom()
