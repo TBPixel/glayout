@@ -8,8 +8,12 @@ function DrawHUD()
 
         -- Declare Sizing & Positioning of Grid
         grid:SetPos( 0, ScrH() - ( ScrH() / 10 ) )
+
+        -- Set Grid Properties
         grid:SetWidth( ScrW() )
         grid:SetMargin( { 0, 20, 20, 20 } )
+
+        -- Initialize Our Grid
         grid:Init()
 
 
@@ -19,8 +23,12 @@ function DrawHUD()
 
     -- Create First Column
     col[1] = grid:CreateCol( 6 )
+
+    -- Set Column Properties
     col[1]:SetHeight( ScrH() / 10 )
     col[1]:SetMarginRight( 10 )
+
+    -- Initialize Our Column
     col[1]:Init()
 
     -- Stores player in local variable
@@ -39,8 +47,12 @@ function DrawHUD()
 
     -- Create Second Column
     col[2] = grid:CreateCol( 6 )
+
+    -- Set Column Properties
     col[2]:SetHeight( ScrH() / 10 )
     col[2]:SetMarginLeft( 10 )
+
+    -- Initialize Our Column
     col[2]:Init()
 
     -- Draw what you want inside the column
@@ -48,9 +60,6 @@ function DrawHUD()
 
         draw.RoundedBox( 0, self.x, self.y, self.width, self.height, Color( 0, 0, 0, 200 ) )
     end
-
-
-    PrintTable( grid )
 
 
     -- Simple HUDPaint Function
