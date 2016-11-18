@@ -3,6 +3,12 @@
 -----------------------------------
 function DrawHUD()
 
+
+    -- Stores player in local variable
+    local ply = LocalPlayer()
+    local hp = ( ply:Health() / ply:GetMaxHealth() )
+
+
     -- Create our new grid
     local grid  = Grid:Create(
     {
@@ -30,7 +36,7 @@ function DrawHUD()
     grid:Init()
 
 
-    -- Create Columns
+    -- Contains columns as an array
     local col = {}
 
     -- Set Column Styles
@@ -50,22 +56,17 @@ function DrawHUD()
         -- Set Margin-Right for this column only
         col[1]:SetMarginRight( 10 )
 
+        -- Draw what you want inside the column
+        col[1].Draw = function( self )
+
+            -- Linear Interpolation on Health Bar
+            hp = Lerp( 10 * FrameTime(), hp, ply:Health() / ply:GetMaxHealth() )
+
+            draw.RoundedBox( 0, self.x, self.y, self.width * hp, self.height, Color( 255, 60, 60, 200 ) )
+        end
+
     -- Initialize Our Column
     col[1]:Init()
-
-
-    -- Stores player in local variable
-    local ply = LocalPlayer()
-    local hp = ( ply:Health() / ply:GetMaxHealth() )
-
-    -- Draw what you want inside the column
-    col[1].Draw = function( self )
-
-        -- Linear Interpolation on Health Bar
-        hp = Lerp( 10 * FrameTime(), hp, ply:Health() / ply:GetMaxHealth() )
-
-        draw.RoundedBox( 0, self.x, self.y, self.width * hp, self.height, Color( 255, 60, 60, 200 ) )
-    end
 
 
     -- Create Second Column
@@ -74,14 +75,14 @@ function DrawHUD()
         -- Set Margin-Left for this column only
         col[2]:SetMarginLeft( 10 )
 
+        -- Draw what you want inside the column
+        col[2].Draw = function( self )
+
+            draw.RoundedBox( 0, self.x, self.y, self.width, self.height, Color( 0, 0, 0, 200 ) )
+        end
+
     -- Initialize Our Column
     col[2]:Init()
-
-    -- Draw what you want inside the column
-    col[2].Draw = function( self )
-
-        draw.RoundedBox( 0, self.x, self.y, self.width, self.height, Color( 0, 0, 0, 200 ) )
-    end
 
 
     -- Simple HUDPaint Function
