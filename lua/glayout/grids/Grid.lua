@@ -78,7 +78,7 @@ function Grid:CalcColumnStartingColumn()
 
     local start = 0
 
-    for _, column in pairs( self.columns.nodes ) do
+    for _, column in ipairs( self.columns.nodes ) do
         
         start = start + column.span
     end
@@ -93,7 +93,7 @@ function Grid:CalcNewHeight()
     -- Calculate tallest column in grid
     local h = 0
 
-    for _, col in pairs( self.columns.nodes ) do
+    for _, col in ipairs( self.columns.nodes ) do
         
         if ( col.box.content.height > h ) then h = col.box.content.height end
     end

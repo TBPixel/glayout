@@ -1,15 +1,17 @@
 -----------------------------------
---   Our HUD Callable function   --
+--   HUD Callable function   --
 -----------------------------------
+
 function DrawHUD()
 
 
     -- Stores player in local variable
     local ply = LocalPlayer()
+    -- Get local hp as decimal value of Player Health / Player Max Health
     local hp = ( ply:Health() / ply:GetMaxHealth() )
 
 
-    -- Create our new grid
+    -- Create a new grid
     local grid  = Grid:Create(
     {
         -- Position
@@ -32,7 +34,7 @@ function DrawHUD()
         },
     })
 
-    -- Initialize Our Grid
+    -- Initialize Grid
     grid:Init()
 
 
@@ -42,9 +44,12 @@ function DrawHUD()
     -- Set Column Styles
     local colStyles =
     {
+        -- Columns to span
         span        = 6,
+        -- Size of column
         size        =
         {
+            -- Height of column
             height      = ScrH() / 10,
         },
     }
@@ -62,10 +67,12 @@ function DrawHUD()
             -- Linear Interpolation on Health Bar
             hp = Lerp( 10 * FrameTime(), hp, ply:Health() / ply:GetMaxHealth() )
 
+            -- Draw healthbar at column starting position, width * hp & column height
+            -- Give it a faded red colour
             draw.RoundedBox( 0, self.x, self.y, self.width * hp, self.height, Color( 255, 60, 60, 200 ) )
         end
 
-    -- Initialize Our Column
+    -- Initialize Column
     col[1]:Init()
 
 
@@ -78,17 +85,19 @@ function DrawHUD()
         -- Draw what you want inside the column
         col[2].Draw = function( self )
 
+            -- Draw a demonstration box at starting position, with column width & height
+            -- Give it a faded black colour
             draw.RoundedBox( 0, self.x, self.y, self.width, self.height, Color( 0, 0, 0, 200 ) )
         end
 
-    -- Initialize Our Column
+    -- Initialize Column
     col[2]:Init()
 
 
     -- Simple HUDPaint Function
     function HUDPaint_custom()
 
-        -- Draw our new grid
+        -- Draw Columns
         grid:Draw()
     end
 
@@ -105,7 +114,7 @@ end
 -- Draws HUD if LocalPlayer() is valid -- Used mainly for Lua Auto Refresh
 if IsValid( LocalPlayer() ) then DrawHUD() end
 
--- Draws HUD if InitPostEntity runs
+-- Ensures DrawHUD is ran when player enters the game ( LocalPlayer() will always be valid after this hook )
 hook.Add( 'InitPostEntity', 'PlayerIsValid', DrawHUD )
 
 
@@ -118,10 +127,15 @@ hook.Add( 'InitPostEntity', 'PlayerIsValid', DrawHUD )
 local DefaultHUD = { 'CHudHealth', 'CHudBattery', 'CHudAmmo', 'CHudSecondaryAmmo', 'CHudDamageIndicator' }
 
 -- Remove Default HUD
-local function HideDefaultHUD ( name )
-  -- Loop Over Removeable HUD Elements
-  for _, v in ipairs( DefaultHUD ) do
-    if name == v then return false end
-  end
+local function HideDefaultHUD( name )
+
+    -- Loop Over Removeable HUD Elements
+    for _, v in ipairs( DefaultHUD ) do
+
+        -- Returns false if HUD element name matches element in table
+        if name == v then return false end
+    end
 end
+
+-- Tell HUD what not to draw
 hook.Add ( 'HUDShouldDraw', 'HideDefaultHUD', HideDefaultHUD )
