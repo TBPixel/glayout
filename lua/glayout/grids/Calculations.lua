@@ -8,12 +8,28 @@ GridMath = {}
 function GridMath.CalcBoxModel( node )
 
     -- Get Box Model Properties
-    local BoxModel  = node.box
-        local m     = BoxModel.margin
-        local p     = BoxModel.padding
-        local c     = BoxModel.content
+    local box  = node.box
+        local m     = box.margin
+        local p     = box.padding
+        local c     = box.content
 
     local s = node.start
+
+    -- Parent Grid
+    local parent = {}
+        parent.margin = {}
+            parent.margin.top       = 0
+            parent.margin.right     = 0
+            parent.margin.bottom    = 0
+            parent.margin.left      = 0
+
+    if ( node.parent ) then
+
+        parent.margin.top       = node.parent.box.margin.top
+        parent.margin.right     = node.parent.box.margin.right
+        parent.margin.bottom    = node.parent.box.margin.bottom
+        parent.margin.left      = node.parent.box.margin.left
+    end
 
 
     -- Caclulate Content Positioning
@@ -27,7 +43,10 @@ function GridMath.CalcBoxModel( node )
 
     -- Calculate Box Model Size
     local width     = c.width   - ( m.left + m.right )
-    local height    = c.height  - ( m.top  + m.bottom )
+    local height    = 0
+    if ( c.height > 0 ) then
+        height    = c.height  - ( m.top  + m.bottom ) - ( parent.margin.top    + parent.margin.bottom )
+    end
 
 
     -- Set Positioning

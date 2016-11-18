@@ -1,3 +1,11 @@
+# 0.1.2
+
+## The Row Removal Update
+
+Rows have been removed and the spacing system has been reworked to accomadate.
+Rows were removed in preparation for The Stacking Columns Update™ to come
+
+
 # 0.1.1
 
 ## The Box Model Update

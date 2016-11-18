@@ -7,25 +7,21 @@ function DrawHUD()
     local grid = Grid:Create()
 
         -- Declare Sizing & Positioning of Grid
-        grid:SetStartSize( ScrW(), ScrH() / 10 )
-        grid:SetStartPos( 0, ScrH() - ( ScrH() / 10 ) )
-
-
-    -- Create a grid row
-    local row = grid:CreateRow()
-        -- Sets Margins for Row in order: Top, Right, Bottom, Left
-        row:SetMargin( {0, 20, 20, 20} )
+        grid:SetPos( 0, ScrH() - ( ScrH() / 10 ) )
+        grid:SetWidth( ScrW() )
+        grid:SetMargin( { 0, 20, 20, 20 } )
+        grid:Init()
 
 
     -- Create Columns
     local col = {}
 
+
     -- Create First Column
-    col[1] = row:CreateCol( 3 )
-
-    -- Sets Margin Right for column
+    col[1] = grid:CreateCol( 6 )
+    col[1]:SetHeight( ScrH() / 10 )
     col[1]:SetMarginRight( 10 )
-
+    col[1]:Init()
 
     -- Stores player in local variable
     local ply = LocalPlayer()
@@ -42,17 +38,19 @@ function DrawHUD()
 
 
     -- Create Second Column
-    col[2] = row:CreateCol( 3 )
-    col[2]:Shift( 6 )
-
-    -- Sets Margin Left for column
+    col[2] = grid:CreateCol( 6 )
+    col[2]:SetHeight( ScrH() / 10 )
     col[2]:SetMarginLeft( 10 )
+    col[2]:Init()
 
     -- Draw what you want inside the column
     col[2].Draw = function( self )
 
         draw.RoundedBox( 0, self.x, self.y, self.width, self.height, Color( 0, 0, 0, 200 ) )
     end
+
+
+    PrintTable( grid )
 
 
     -- Simple HUDPaint Function

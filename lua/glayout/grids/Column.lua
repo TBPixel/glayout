@@ -3,19 +3,22 @@
 ------------------
 Col = Base:Create()
 
+-- Track which row the column exists in
+-- Col.row = 0
+
 
 -----------------
 -- CONSTRUCTOR --
 -----------------
-function Col:Create( id, row )
+function Col:Create( id, parent )
 
     -- Prepares a copy of the original table for instantiation
-    local new = table.Copy( Col )
+    local new = table.Copy( self )
 
     -- Declares an id for the column instance
     new.id      = id
     -- Declares an id for the parent row
-    new.row     = row
+    new.parent  = parent
 
     -- Returns new instance
     if IsValid( new ) then
@@ -39,6 +42,7 @@ function Col:SetSpan( span )
     assert( span >= 0, '\'span\' cannot be less than 0!' )
 
     self.span = span
+    self:SetWidth( self.columns.width * span )
 end
 
 function Col:Shift( span )
@@ -51,9 +55,24 @@ function Col:Shift( span )
 
     dist = start + dist
 
-    self:SetStartX( dist )
+    self:SetX( dist )
 end
 
 
 -- Draw loop for the Column
 function Col:Draw() end
+
+
+-------------
+-- SETTERS --
+-------------
+
+-- Sets the full height of the Base explicilty
+function Col:SetHeight( height )
+
+    assert( height >= 0, 'Height must be 0 or greater!' )
+    self.box.content.height = height
+
+    -- Calculates new height of grid
+    self.parent:CalcNewHeight()
+end
