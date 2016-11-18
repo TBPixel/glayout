@@ -1,3 +1,10 @@
+# 0.1.3
+
+## The Property Passing Update
+
+Properties of grids and columns may now be passed to the instance as a table of propery->value pairs.
+
+
 # 0.1.2
 
 ## The Row Removal Update

@@ -14,17 +14,31 @@ Grid.columns.nodes = {}
 -----------------
 -- CONSTRUCTOR --
 -----------------
-function Grid:Create( id )
+function Grid:Create( props )
 
-    if not id then id = nil end
+    -- Set local id
+    local id = nil
+
+    -- Set id for table of data
+    if istable( props ) then
+
+        -- Allow id to be optional property
+        if props.id then id = props.id end
+
+    -- Set id to props argument if number
+    elseif isnumber ( props ) then id = props end
 
     -- Prepares a copy of the original table for instantiation
     local new = table.Copy( self )
 
-    new.id = id
+    -- Set New Grid ID
+    new.id = props.id
 
     -- Returns new instance
     if IsValid( new ) then
+
+        -- Run Pass Properties Method
+        if istable( props ) then new:PassProps( props ) end
 
         return new
     else
@@ -104,7 +118,14 @@ end
 ------------------
 
 -- Creates a column to be used in the instanced row
-function Grid:CreateCol( span )
+function Grid:CreateCol( props )
+
+    -- Store local reference of span
+    local span = 0
+
+    -- Get Span Property from props
+    if istable( props ) and props.span then span = props.span
+    elseif isnumber( props ) then span = props end
 
     -- Ensure span is set
     assert( span > 0, '\'Span\' must be set to greater than 0!' )
@@ -145,6 +166,8 @@ function Grid:CreateCol( span )
 
         -- Stores column node in Row for reference later
         self.columns.nodes[ id ] = new
+
+        if istable( props ) then new:PassProps( props ) end
 
         -- Returns new Row Instance
         return new

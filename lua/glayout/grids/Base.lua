@@ -90,6 +90,75 @@ function Base:Init()
 end
 
 
+    ------------------------------
+    -- PASS PROPERTIES AS TABLE --
+    ------------------------------
+    function Base:PassProps( props )
+
+        -- Ensure Props is a table
+        assert( istable( props ), '\'props\' must be a table of property->value pairs!' )
+
+        -- Check for margins
+        if props.margin then
+
+            -- Store local reference to margins
+            local prop = props.margin
+
+            -- Margin Top
+            if prop.top then        self:SetMarginTop( prop.top ) end
+            -- Margin Right
+            if prop.right then      self:SetMarginRight( prop.right ) end
+            -- Margin Bottom
+            if prop.bottom then     self:SetMarginBottom( prop.bottom ) end
+            -- Margin Left
+            if prop.left then       self:SetMarginLeft( prop.left ) end
+        end
+
+        -- Check for padding
+        if props.padding then
+
+            -- Store local reference to padding
+            local prop = props.padding
+
+            -- Padding Top
+            if prop.top then        self:SetPaddingTop( prop.top ) end
+            -- Padding Right
+            if prop.right then      self:SetPaddingRight( prop.right ) end
+            -- Padding Bottom
+            if prop.bottom then     self:SetPaddingBottom( prop.bottom ) end
+            -- Padding Left
+            if prop.left then       self:SetPaddingLeft( prop.left ) end
+        end
+
+
+        -- Check for Size
+        if props.size then
+
+            -- Store local reference to size
+            local prop = props.size
+
+            -- Width
+            if prop.width then      self:SetWidth( prop.width ) end
+            -- Height
+            if prop.height then     self:SetHeight( prop.height ) end
+        end
+
+
+        -- Check for Position
+        if props.pos then
+
+            -- Store local reference to position
+            local prop = props.pos
+
+            -- X
+            if prop.x then          self:SetX( prop.x ) end
+
+            -- Y
+            if prop.y then          self:SetY( prop.y ) end
+        end
+    end
+
+
     -----------------
     -- SET MARGINS --
     -----------------
