@@ -20,6 +20,4 @@ Garry's Mod Library for building HUD's using grids
 
 * 0.1.4 - Stacking Columns
     
-    * Columns whose column count, when added onto the rest of the current row, should stack
-
-    * Columns should adjust in size to compensate in fit in the Grid scale
+    * Columns whose width, when added onto the rest of the current row, exceed the maximum width of the grid should stack
