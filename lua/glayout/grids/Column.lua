@@ -67,7 +67,4 @@ function Col:SetHeight( height )
 
     assert( height >= 0, 'Height must be 0 or greater!' )
     self.box.content.height = height
-
-    -- Calculates new height of grid
-    self.parent:UpdateHeight()
 end

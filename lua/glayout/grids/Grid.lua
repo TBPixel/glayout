@@ -201,12 +201,16 @@ function Grid:UpdateRowStartY( row )
 
     if not ( row.id > 1 ) then return end
 
+    -- Get previous row height
     local y = self:GetRow( #self.rows - 1 )
     y = y.props.height
 
+    -- Fixes column stacking when creating columns with a for loop
+    y = y * ( row.id - 1 )
+
     for _, col in ipairs( row.columns ) do
         
-        col:SetY( self.start.y + y )
+        col:SetY( col.start.y + y )
     end
 end
 
@@ -304,6 +308,9 @@ function Grid:CreateCol( props )
 
         -- Set properties on row
         if istable( props ) then new:PassProps( props ) end
+
+        -- Updates height of grid and rows
+        self:UpdateHeight()
 
         -- Updates start position for stacked columns
         self:UpdateRowStartY( row )

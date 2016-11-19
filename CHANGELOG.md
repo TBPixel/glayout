@@ -1,3 +1,12 @@
+## 0.2.1
+
+### BUGFIX: Creating Columns Sequentially
+
+Creating columns using a for loop would cause columns to stack on top of each other, this issue should be fixed.
+
+Creating columns manually are unaffected and stack in the same way.
+
+
 ## 0.2.0
 
 ### The Column Stacking Update
