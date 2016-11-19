@@ -97,6 +97,7 @@ end
 
         -- Ensure Props is a table
         assert( istable( props ), '\'props\' must be a table of property->value pairs!' )
+        
 
         -- Check for margins
         if props.margin then

@@ -1,8 +1,8 @@
 "AddonInfo"
 {
     "name"              "GLayout"
-    "version"           "0.1.3"
-    "up_date"           "11/18/16"
+    "version"           "0.2.0"
+    "up_date"           "11/19/16"
     "author_name"       "Tony Barry"
     "author_email"      "tmpbpixel@gmail.com"
     "author_url"        "http://tbpixel.com/"

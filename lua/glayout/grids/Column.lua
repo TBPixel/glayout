@@ -3,20 +3,15 @@
 ------------------
 Col = Base:Create()
 
--- Track which row the column exists in
--- Col.row = 0
-
 
 -----------------
 -- CONSTRUCTOR --
 -----------------
-function Col:Create( id, parent )
+function Col:Create( parent )
 
     -- Prepares a copy of the original table for instantiation
     local new = table.Copy( self )
-
-    -- Declares an id for the column instance
-    new.id      = id
+    
     -- Declares an id for the parent row
     new.parent  = parent
 
@@ -74,5 +69,5 @@ function Col:SetHeight( height )
     self.box.content.height = height
 
     -- Calculates new height of grid
-    self.parent:CalcNewHeight()
+    self.parent:UpdateHeight()
 end

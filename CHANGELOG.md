@@ -1,21 +1,32 @@
-# 0.1.3
+## 0.2.0
 
-## The Property Passing Update
+### The Column Stacking Update
+
+Columns now stack into new rows upon exceeding the maximum width of the grid.
+
+Columns will continue to stack indefinitely.
+
+New rows will start their new Y position at the bottom of the tallest item from the previous row to prevent overlap and increase consistency
+
+
+## 0.1.3
+
+### The Property Passing Update
 
 Properties of grids and columns may now be passed to the instance as a table of propery->value pairs.
 
 
-# 0.1.2
+## 0.1.2
 
-## The Row Removal Update
+### The Row Removal Update
 
 Rows have been removed and the spacing system has been reworked to accomadate.
 Rows were removed in preparation for The Stacking Columns Update™ to come.
 
 
-# 0.1.1
+## 0.1.1
 
-## The Box Model Update
+### The Box Model Update
 
 The box model and it's relevant calculations have been completely re-written.
 
@@ -25,6 +36,6 @@ The box model and it's relevant calculations have been completely re-written.
 * Some sizing & positioning issues were addressed in the Box Model Update
 
 
-# 0.1.0
+## 0.1.0
 
 Early commit of GLayout. Contains tools for building HUD's using a grid system.

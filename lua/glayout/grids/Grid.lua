@@ -8,7 +8,7 @@ Grid = Base:Create()
 ---------------------
 
 -- Grid Containers for remembering data
-Grid.columns.nodes = {}
+Grid.rows = {}
 
 
 -----------------
@@ -74,13 +74,13 @@ function Grid:CalcWidthOfColumns()
 end
 
 -- Calculates the starting column for a newly added column
-function Grid:CalcColumnStartingColumn()
+function Grid:CalcColumnStartingColumn( row )
 
     local start = 0
 
-    for _, column in ipairs( self.columns.nodes ) do
-        
-        start = start + column.span
+    for _, col in ipairs( row.columns ) do
+            
+        start = start + col.span
     end
 
     return start
@@ -88,14 +88,19 @@ end
 
 
 -- Calculates the new height based on child columns
-function Grid:CalcNewHeight()
+function Grid:UpdateHeight()
+
+    -- Updates row heights
+    self:UpdateRowHeights()
 
     -- Calculate tallest column in grid
     local h = 0
 
-    for _, col in ipairs( self.columns.nodes ) do
-        
-        if ( col.box.content.height > h ) then h = col.box.content.height end
+    -- Loop over rows
+    for _, row in ipairs( self.rows ) do
+
+        -- Get New Height
+        if ( row.props.height > h ) then h = row.props.height end
     end
 
     -- Set New Height
@@ -114,46 +119,176 @@ end
 
 
 ------------------
+-- ROWS METHODS --
+------------------
+
+
+-- Adds a new row
+function Grid:AddRow()
+
+    local row = {}
+        row.id      = -1
+        row.props   = {}
+            row.props.width     = 0
+            row.props.height    = 0
+        row.columns = {}
+
+    row.id = table.insert( self.rows, row )
+
+    return row.id
+end
+
+
+-- Gets a row by id
+function Grid:GetRow( id )
+
+    local row = self.rows[ id ]
+
+    if istable( row ) then return row end
+
+    return false
+end
+
+
+-- Checks to see if row has room for new column
+function Grid:ColWillFit( row, width )
+
+    assert( istable( row ), '\'row\' must be a table!' )
+    assert( isnumber( width ), '\'width\' must be a number!' )
+
+    local w = width
+
+    -- Loop over given row
+    for _, col in ipairs( row.columns ) do
+        
+        -- Get combined width of columns
+        w = w + col.box.content.width
+    end
+
+    -- Column will not fit
+    if w > self.box.content.width then return false end
+
+    -- Column will fit
+    return true
+end
+
+
+-- Updates the height of each row
+function Grid:UpdateRowHeights()
+
+    -- Loop over rows
+    for _, row in ipairs( self.rows ) do
+        
+        -- Set a local row height
+        local h = 0
+
+        -- Loop over columns
+        for k, col in ipairs( row.columns ) do
+
+            local height = col.box.content.height
+            
+            if ( height > h ) then h = height end
+        end
+
+        -- Set new row height
+        row.props.height = h
+    end
+end
+
+
+-- 
+function Grid:UpdateRowStartY( row )
+
+    if not ( row.id > 1 ) then return end
+
+    local y = self:GetRow( #self.rows - 1 )
+    y = y.props.height
+
+    for _, col in ipairs( row.columns ) do
+        
+        col:SetY( self.start.y + y )
+    end
+end
+
+
+-- Sets up a new row for column creation
+function Grid:SetupRow( colWidth )
+
+    -- Sets -1 as recognizable default row id
+    local row = -1
+
+    -- No rows exist yet
+    if ( #self.rows <= 0 ) then
+
+        -- Create initial row
+        row = self:AddRow()
+    else
+
+        -- Get newest row
+        row = #self.rows
+
+        -- There's no room in newest row
+        if not self:ColWillFit( self:GetRow( #self.rows ), colWidth ) then
+
+            -- Create new row
+            row = self:AddRow()
+        end
+    end
+
+    -- Returns new row id
+    return row
+end
+
+
+------------------
 -- NODE METHODS --
 ------------------
 
 -- Creates a column to be used in the instanced row
 function Grid:CreateCol( props )
 
-    -- Store local reference of span
+
+    -- Set local span reference
     local span = 0
 
-    -- Get Span Property from props
+    -- Sets Span
     if istable( props ) and props.span then span = props.span
     elseif isnumber( props ) then span = props end
 
-    -- Ensure span is set
-    assert( span > 0, '\'Span\' must be set to greater than 0!' )
-
-    local id = #self.columns.nodes + 1
 
     -- Creates a new row instance for use
-    local new = Col:Create( id, self )
+    local new = Col:Create( self )
 
     
     -- Send column width to new child
     new.columns.width = self.columns.width
 
-    -- Set starting column count
+
+    -- Sets Span & Width
     new:SetSpan( span )
 
 
-    -- Sets Starting Column
-    new.columnsStart = self:CalcColumnStartingColumn()
+    -- Setup new row
+    local row   = self:SetupRow( new.box.content.width )
 
-    -- Setup new column
-    new:SetSize( self.columns.width * span, 0 )
+
+    -- Set Row id
+    new.row = row
+
+
+    -- Set row to actual row for use
+    row     = self:GetRow( row )
+
+
+    -- Sets Starting Column
+    new.columnsStart = self:CalcColumnStartingColumn( row )
 
     local x = self.x
 
     -- Adjust for multi-column margins
-    for _, col in ipairs( self.columns.nodes ) do
+    for _, col in ipairs( row.columns ) do
 
+        -- Calculates the x starting position of the current row of columns
         x = x + col:GetWidth() + ( col.box.margin.left + col.box.margin.right )
     end
 
@@ -164,10 +299,14 @@ function Grid:CreateCol( props )
     -- Ensures new instance is valid
     if IsValid( new ) then
 
-        -- Stores column node in Row for reference later
-        self.columns.nodes[ id ] = new
+        -- Insert column into row
+        table.insert( row.columns, new )
 
+        -- Set properties on row
         if istable( props ) then new:PassProps( props ) end
+
+        -- Updates start position for stacked columns
+        self:UpdateRowStartY( row )
 
         -- Returns new Row Instance
         return new
@@ -178,10 +317,27 @@ function Grid:CreateCol( props )
     end
 end
 
-function Grid:Draw()
 
-    for _, column in ipairs( self.columns.nodes ) do
+------------------
+-- DRAW METHODS --
+------------------
 
-        if column.Draw then column:Draw() end
+function Grid:DrawGrid()
+
+    -- Allows drawing to Grid
+    if self.Draw then self:Draw() end
+
+    -- Loop over rows
+    for _, row in ipairs( self.rows ) do
+
+        -- Loop over columns
+        for k, col in ipairs( row.columns ) do
+            
+            -- Run draw method if available
+            if col.Draw then col:Draw() end
+        end
     end
 end
+
+
+function Grid:Draw() end
