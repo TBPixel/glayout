@@ -32,7 +32,7 @@ function Grid:Create( props )
     local new = table.Copy( self )
 
     -- Set New Grid ID
-    new.id = props.id
+    new.id = id
 
     -- Returns new instance
     if IsValid( new ) then

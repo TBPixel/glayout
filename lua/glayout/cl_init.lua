@@ -18,7 +18,7 @@ function DrawHUD()
         pos         =
         {
             x       = 0,
-            y       = ScrH() - ( ( ScrH() / 10 ) * 2 )
+            y       = ScrH() - ( ScrH() / 10 )
         },
         -- Width
         size        =
@@ -91,44 +91,6 @@ function DrawHUD()
 
     -- Initialize Column
     col[2]:Init()
-
-
-    -- Sets Default Span to 3 while leaving remaining properties the same
-    colStyles.span = 3
-
-
-    -- Creates 4 more columns
-    for i = 3, 6 do
-        
-        -- Create First Column
-        col[i] = grid:CreateCol( colStyles )
-
-            -- Central columns in this loop
-            if ( not ( i == 3 ) and not ( i == 6 ) ) then
-
-                -- Margin Left & Right must be set
-                col[i]:SetMarginLeft( 10 )
-                col[i]:SetMarginRight( 10 )
-
-            -- Outer Columns
-            else
-
-                -- Left Column
-                if not ( i % 2 == 0 ) then col[i]:SetMarginRight( 10 )
-                -- Right Column
-                else col[i]:SetMarginLeft( 10 ) end
-            end
-
-            -- Draw what you want inside the column
-            col[i].Draw = function( self )
-
-                -- Give it a faded black colour
-                draw.RoundedBox( 0, self.x, self.y, self.width, self.height, Color( 0, 0, 0, 200 ) )
-            end
-
-        -- Initialize Column
-        col[i]:Init()
-    end
 
 
     -- Simple HUDPaint Function
