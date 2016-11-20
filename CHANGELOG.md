@@ -1,3 +1,14 @@
+## 0.2.3
+
+### Auto Update Grid Y
+
+Grid's can now have their Y position automatically updated via the Grid:AutoUpdateY() method.
+
+Due to the calls to :Init() method on both Grid's & Columns, this method is to be used only **AFTER** all your columns are created.
+
+Using this method means you *do not* need to adjust your initial y position for the height of your first row.
+
+
 ## 0.2.2
 
 ### BUGFIX: Grid geight not being updated

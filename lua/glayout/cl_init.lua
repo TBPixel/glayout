@@ -18,7 +18,7 @@ function DrawHUD()
         pos         =
         {
             x       = 0,
-            y       = ScrH() - ( ScrH() / 10 )
+            y       = ScrH()
         },
         -- Width
         size        =
@@ -37,7 +37,7 @@ function DrawHUD()
         -- Draw to our grid
         grid.Draw = function( self )
 
-            draw.RoundedBox( 0, self.x, self.y, self.width, self.height, Color( 0, 0, 0, 100 ) )
+            draw.RoundedBox( 0, self.x, self.y, self.width, self.height, Color( 0, 0, 0, 200 ) )
         end
 
     -- Initialize Grid
@@ -97,6 +97,10 @@ function DrawHUD()
 
     -- Initialize Column
     col[2]:Init()
+
+
+    -- Updates Y Position of Grid & all child columns automatically
+    grid:AutoUpdateY()
 
 
     -- Simple HUDPaint Function

@@ -150,3 +150,10 @@ Going forward now, every new column would get the same margins, but their span w
 * ~~0.2.0 - Columns Stacking~~
     
     * ~~Columns whose width, when added onto the rest of the current row, exceed the maximum width of the grid should stack~~
+
+
+* 0.2.3 - Grid Y Auto Updating
+
+    * Grids Y position ( along with all columns ) can now be automatically updated
+
+    * Simply use Grid:AutoUpdateY() method **AFTER** all your columns are created

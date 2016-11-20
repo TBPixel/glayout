@@ -106,6 +106,42 @@ function Grid:UpdateHeight()
     -- Set New Height
     self:SetHeight( h )
 
+
+    -- Re-Initialize
+    self:Init()
+end
+
+
+-- Updates Y position based on rows
+function Grid:AutoUpdateY()
+
+    -- Gets current Y Position
+    local y         = self:GetY()
+
+    -- Gets a reverse list of rows
+    -- Needed to ensure columns do not end up in reverse order when applying new y position
+    local reverseRows = table.Reverse( self.rows )
+
+    -- Loop over reversed rows
+    for _, row in ipairs( reverseRows ) do
+
+        -- Set new y
+        y = y - row.props.height
+
+        -- Loop over row columns
+        for k, col in ipairs( row.columns ) do
+            
+            -- Set new y
+            col:SetY( y )
+            -- Re-Initialize Columns
+            col:Init()
+        end
+    end
+
+
+    -- Sets new Y position
+    self:SetY( y )
+
     -- Re-Initialize
     self:Init()
 end
