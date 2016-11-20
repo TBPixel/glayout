@@ -17,18 +17,38 @@ function GridMath.CalcBoxModel( node )
 
     -- Parent Grid
     local parent = {}
+        -- Parent Margins
         parent.margin = {}
             parent.margin.top       = 0
             parent.margin.right     = 0
             parent.margin.bottom    = 0
             parent.margin.left      = 0
+        -- Parent Padding
+        parent.padding = {}
+            parent.padding.top      = 0
+            parent.padding.right    = 0
+            parent.padding.bottom   = 0
+            parent.padding.left     = 0
 
+
+    -- Update values only if node has a parent ( aka columns )
     if ( node.parent ) then
 
-        parent.margin.top       = node.parent.box.margin.top
-        parent.margin.right     = node.parent.box.margin.right
-        parent.margin.bottom    = node.parent.box.margin.bottom
-        parent.margin.left      = node.parent.box.margin.left
+        -- Gets Margins to update individual columns with
+        local parentMargin = node.parent.box.margin
+
+        parent.margin.top       = parentMargin.top
+        parent.margin.right     = parentMargin.right
+        parent.margin.bottom    = parentMargin.bottom
+        parent.margin.left      = parentMargin.left
+
+        -- Gets Padding to update individual columns with
+        local parentPadding = node.parent.box.padding
+
+        parent.padding.top      = parentPadding.top
+        parent.padding.right    = parentPadding.right
+        parent.padding.bottom   = parentPadding.bottom
+        parent.padding.left     = parentPadding.left
     end
 
 
@@ -37,15 +57,15 @@ function GridMath.CalcBoxModel( node )
     c.y             = p.top     + p.bottom
 
 
-    local x         = s.x + m.left
-    local y         = s.y + m.top
+    local x         = s.x + m.left  + parent.padding.left
+    local y         = s.y + m.top   + parent.padding.top
     
 
     -- Calculate Box Model Size
-    local width     = c.width   - ( m.left + m.right )
+    local width     = c.width   - ( m.left + m.right ) - parent.padding.left
     local height    = 0
     if ( c.height > 0 ) then
-        height    = c.height  - ( m.top  + m.bottom ) - ( parent.margin.top    + parent.margin.bottom )
+        height    = c.height  - ( m.top  + m.bottom ) - ( parent.margin.top    + parent.margin.bottom ) - ( parent.padding.top + parent.padding.bottom )
     end
 
 

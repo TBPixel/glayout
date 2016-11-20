@@ -31,14 +31,8 @@ function DrawHUD()
             right   = 20,
             bottom  = 20,
             left    = 20
-        },
+        }
     })
-
-        -- Draw to our grid
-        grid.Draw = function( self )
-
-            draw.RoundedBox( 0, self.x, self.y, self.width, self.height, Color( 0, 0, 0, 200 ) )
-        end
 
     -- Initialize Grid
     grid:Init()

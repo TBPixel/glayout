@@ -1,3 +1,13 @@
+## 0.2.4
+
+### Padding Fixes for Grid
+
+More of an oversight than a bug, padding on grids didn't really make sense. If padding were set & a grid was drawn, it had no affect on it's columns.
+
+That's now been fixed. Using padding isn't really useful if Grid isn't going to be drawn to ( it basically acts the same ), but is great if columns should
+be spaced from the edges of a Drawn Grid
+
+
 ## 0.2.3
 
 ### Auto Update Grid Y
