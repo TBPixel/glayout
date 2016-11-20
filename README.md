@@ -135,24 +135,24 @@ Going forward now, every new column would get the same margins, but their span w
 
 * ~~0.1.1 - Box Model's~~
 
-    * ~~Re-Write the Box Model System to be more functional~~
+    * Re-Write the Box Model System to be more functional
 
 * ~~0.1.2 - Row Removal~~
     
-    * ~~Row's have been removed as the stacking update will simplify what problems rows were intended to solve~~
+    * Row's have been removed as the stacking update will simplify what problems rows were intended to solve
 
 
 * ~~0.1.3 - Property Passing~~
 
-    * ~~Properties can be passed to grid instances as a table of property->value pairs~~
+    * Properties can be passed to grid instances as a table of property->value pairs
 
 
 * ~~0.2.0 - Columns Stacking~~
     
-    * ~~Columns whose width, when added onto the rest of the current row, exceed the maximum width of the grid should stack~~
+    * Columns whose width, when added onto the rest of the current row, exceed the maximum width of the grid should stack
 
 
-* 0.2.3 - Grid Y Auto Updating
+* ~~0.2.3 - Grid Y Auto Updating~~
 
     * Grids Y position ( along with all columns ) can now be automatically updated
 
