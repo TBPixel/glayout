@@ -34,6 +34,12 @@ function DrawHUD()
         },
     })
 
+        -- Draw to our grid
+        grid.Draw = function( self )
+
+            draw.RoundedBox( 0, self.x, self.y, self.width, self.height, Color( 0, 0, 0, 100 ) )
+        end
+
     -- Initialize Grid
     grid:Init()
 
@@ -86,7 +92,7 @@ function DrawHUD()
         col[2].Draw = function( self )
 
             -- Give it a faded black colour
-            draw.RoundedBox( 0, self.x, self.y, self.width, self.height, Color( 0, 0, 0, 200 ) )
+            draw.RoundedBox( 0, self.x, self.y, self.width, self.height, Color( 255, 255, 255, 200 ) )
         end
 
     -- Initialize Column

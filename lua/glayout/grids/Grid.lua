@@ -100,11 +100,14 @@ function Grid:UpdateHeight()
     for _, row in ipairs( self.rows ) do
 
         -- Get New Height
-        if ( row.props.height > h ) then h = row.props.height end
+        h = h + row.props.height
     end
 
     -- Set New Height
     self:SetHeight( h )
+
+    -- Re-Initialize
+    self:Init()
 end
 
 

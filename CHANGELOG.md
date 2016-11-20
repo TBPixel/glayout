@@ -1,3 +1,14 @@
+## 0.2.2
+
+### BUGFIX: Grid geight not being updated
+
+Grid height wasn't being updated before as the grid instance wasn't being re-initialized.
+
+To prevent repetitious calls to the :Init() method, it's left up to the user to re-initialize after creating their instance.
+
+For the sake of convenience, it will break the rule when updating grid height ( called every time a new column is added ).
+
+
 ## 0.2.1
 
 ### BUGFIX: Creating Columns Sequentially
