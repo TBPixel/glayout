@@ -1,3 +1,23 @@
+## 0.3.0
+
+### The Refactoring Update
+
+Grid's have been completely refactored. Method's are now organized both alphabetically and by group.
+
+Grid Math has been extremely simplified, and now functions correctly ( *knocks on wood* ) with few hiccups.
+
+
+## 0.2.5
+
+### Box Model Fixes
+
+Calculations.lua has been refactored into individual methods that all are called within GridMath.
+
+The :Init() method has been removed in favour of the Grid:Update() method. Remove all :Init() method calls and simply add an :Update() method to your grid instance after all columns are created.
+
+The :AutoUpdateY() method has been replace with a boolean on Grid's. Simply pass autoUpdateY = true to grid, either through property passing or setting it manually, and Grid:Update() will handle it.
+
+
 ## 0.2.4
 
 ### Padding Fixes for Grid

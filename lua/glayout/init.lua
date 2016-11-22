@@ -1,6 +1,6 @@
--- Add Client Side Files to Load --
-AddCSLuaFile( 'glayout.lua' )
-AddCSLuaFile( 'cl_init.lua' )
+-- GLayout must be BOTH AddCSLuaFile'd & Included to work
+AddCSLuaFile( 'glayout.lua' ) -- GLayout.lua loads it's indiviudal files for you so you don't have to
+include( 'glayout.lua' ) -- Thus why it requires a server include alongside an AddCSLuaFile
 
--- Execute Serverside portion of script --
-include( 'glayout.lua' )
+-- Demo cl_init.lua file
+AddCSLuaFile( 'cl_init.lua' )

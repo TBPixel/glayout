@@ -39,4 +39,9 @@ luac.out
 *.x86_64
 *.hex
 
+
+# Ignore Sublime SFTP config
 sftp-config.json
+
+# Ignore OLD GLayout version
+lua/glayout/OLD/

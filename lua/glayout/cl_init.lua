@@ -1,9 +1,6 @@
------------------------------------
---   HUD Callable function   --
------------------------------------
+-- Testing & Development cl_init.lua
 
 function DrawHUD()
-
 
     -- Stores player in local variable
     local ply = LocalPlayer()
@@ -11,58 +8,48 @@ function DrawHUD()
     local hp = ( ply:Health() / ply:GetMaxHealth() )
 
 
-    -- Create a new grid
+    -- Create a grid
     local grid  = Grid:Create(
     {
-        -- Position
-        pos         =
+        size    =
         {
-            x       = 0,
-            y       = ScrH()
+            width = ScrW()
         },
-        -- Width
-        size        =
+        pos     =
         {
-            width   = ScrW(),
+            x   = 0,
+            y   = ScrH() - ( ScrH() / 8 )
         },
-        -- Margins
-        margin      =
+        margin  =
         {
-            right   = 20,
-            bottom  = 20,
-            left    = 20
+            right = 20,
+            bottom = 20,
+            left = 20
         }
     })
 
-    -- Initialize Grid
-    grid:Init()
 
+    -- Store local list of all columns
+    local cols      = {}
 
-    -- Contains columns as an array
-    local col = {}
-
-    -- Set Column Styles
+    -- Re-Usable column styles
     local colStyles =
     {
-        -- Columns to span
-        span        = 6,
-        -- Size of column
-        size        =
+        -- Set columns to span
+        span    = 6,
+        -- Set Size of column
+        size    =
         {
-            -- Height of column
-            height      = ScrH() / 10,
+            -- Set Height of Column
+            height = ScrH() / 8
         },
     }
 
 
-    -- Create First Column
-    col[1] = grid:CreateCol( colStyles )
-
-        -- Set Margin-Right for this column only
-        col[1]:SetMarginRight( 10 )
-
-        -- Draw what you want inside the column
-        col[1].Draw = function( self )
+    -- Draw First Column
+    cols[1] = grid:CreateColumn( colStyles )
+        cols[1]:SetMarginRight( 10 )
+        cols[1].Draw = function( self )
 
             -- Linear Interpolation on Health Bar
             hp = Lerp( 10 * FrameTime(), hp, ply:Health() / ply:GetMaxHealth() )
@@ -72,29 +59,19 @@ function DrawHUD()
             draw.RoundedBox( 0, self.x, self.y, self.width * hp, self.height, Color( 255, 60, 60, 200 ) )
         end
 
-    -- Initialize Column
-    col[1]:Init()
 
-
-    -- Create First Column
-    col[2] = grid:CreateCol( colStyles )
-
-        -- Set Margin-Right for this column only
-        col[2]:SetMarginLeft( 10 )
-
-        -- Draw what you want inside the column
-        col[2].Draw = function( self )
+    -- Draw First Column
+    cols[2] = grid:CreateColumn( colStyles )
+        cols[2]:SetMarginLeft( 10 )
+        cols[2].Draw = function( self )
 
             -- Give it a faded black colour
             draw.RoundedBox( 0, self.x, self.y, self.width, self.height, Color( 255, 255, 255, 200 ) )
         end
 
-    -- Initialize Column
-    col[2]:Init()
 
-
-    -- Updates Y Position of Grid & all child columns automatically
-    grid:AutoUpdateY()
+    -- Finally, Initialize the Grid
+    grid:Init()
 
 
     -- Simple HUDPaint Function
