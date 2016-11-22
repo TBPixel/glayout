@@ -389,7 +389,7 @@ function Grid:UpdateColumnPositions()
         self:LoopRowColumns( row, function( k, column )
 
             -- Local reference for x
-            local x = column.container.x
+            local x = column.x
             local y = self.y + prevHeight
 
 

@@ -2,7 +2,7 @@
 {
     "name"              "GLayout"
     "version"           "0.3.0"
-    "up_date"           "11/21/16"
+    "up_date"           "11/22/16"
     "author_name"       "Tony Barry"
     "author_email"      "tmpbpixel@gmail.com"
     "author_url"        "http://tbpixel.com/"

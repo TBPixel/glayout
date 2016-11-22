@@ -78,6 +78,122 @@ hook.Add( 'HUDPaint', 'HUDPaint_custom', HUDPaint_custom )
 
 Of course, even with the math done for you, that's a lot of work for a box-inside-a-box at the bottom of the screen. Grid's are powerful because of their structure and flow. Try creating a grid with more columns, experiment with spacing, or even draw to the Grid itself ( *Hint*: you can just set Grid.Draw to a function, just like the column )
 
+Lets create a more complex grid together
+
+```lua
+function DrawHUD()
+
+    -- Gets player entity for use in grids
+    local ply   = LocalPlayer()
+
+    -- Gets player Armor as a fraction of max armor
+    local armor = ( ply:Armor() / 100 )
+    -- Gets Player Health as a fraction of max health
+    local hp    = ( ply:Health() / ply:GetMaxHealth() )
+
+
+    -- Declare our Grid
+    local grid  = Grid:Create(
+    -- Pass Properties to Grid using a table of key->value pairs
+    {
+        -- Prop to pass position settings
+        pos     =
+        {
+            -- Prop to set x position
+            x   = 0,
+            -- Prop to set y position
+            y   = ScrH() - 200
+        },
+        -- Prop to pass sizing settings
+        size    =
+        {
+            -- Prop to set width
+            width = ScrW() / 3
+        },
+        -- Prop to pass margin settings
+        margin  =
+        {
+            -- Sets margin from bottom of grid
+            bottom  = 20,
+            -- Sets marign from left of grid
+            left    = 20
+        }
+    })
+
+
+    -- Create a table of columns
+    local cols = {}
+
+
+    -- Set default column styles
+    local styles =
+    {
+        -- Span 12 / 12 columns, the full width of our grid
+        span = 12,
+        -- Prop to pass size of columns
+        size =
+        {
+            -- Set height of columns
+            height = 100,
+        }
+    }
+
+
+    -- Quickly create columns
+    for i = 1, 2 do
+        
+        cols[i] = grid:CreateColumn( styles ) 
+    end
+
+
+
+    -- Set margin bottom on first column
+    cols[1]:SetMarginBottom( 10 )
+
+    -- Draw loop for first column
+    cols[1].Draw = function( self )
+
+        -- Linear Interpolation on Armor Bar
+        armor = Lerp( 10 * FrameTime(), armor, ply:Armor() / 100 )
+
+        -- Draw armor bar
+        draw.RoundedBox( 0, self.x, self.y, self.width * armor, self.height, Color( 55, 55, 55, 200 ) )
+    end
+
+
+    -- Set margin top on second column
+    cols[2]:SetMarginTop( 10 )
+
+    cols[2].Draw = function( self )
+
+        -- Linear Interpolation on Health Bar
+        hp = Lerp( 10 * FrameTime(), hp, ply:Health() / ply:GetMaxHealth() )
+
+        -- Draw healthbar at column starting position, width * hp & column height
+        draw.RoundedBox( 0, self.x, self.y, self.width * hp, self.height, Color( 255, 60, 60, 200 ) )
+    end
+
+
+    -- Initialize grid and columns
+    grid:Init()
+
+
+        -- Run our DrawGrid method in HUDPaint
+    function HUDPaint_custom() grid:DrawGrid() end
+
+    -- Hook custom function into HUDPaint
+    hook.Add( 'HUDPaint', 'HUDPaint_custom', HUDPaint_custom )
+end
+
+
+-- Ensures DrawHUD is ran when player enters the game ( LocalPlayer() will always be valid after this hook )
+hook.Add( 'InitPostEntity', 'PlayerIsValid', DrawHUD )
+```
+
+The above code will draw an armorbar and a healthbar 20px from the bottom-left of the screen. If armor or health is 0 then they will not be drawn. Lerp is used to animate the changes in these variables.
+
+*NOTE*: the InitPostEntity hook just allows to ensure that the player will be valid. This is what allows us to get their armor and health without having to validate them.
+
 
 <br />
 
