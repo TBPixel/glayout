@@ -36,3 +36,15 @@ Garry's Mod Library for building HUD's using Grids & Columns
     * Refactor code to be more readable, organized and re-usable
 
     * Simplify Grid Math by re-thinking previous idea's for Grid Calculations
+
+
+* Grid Auto Update Y
+    
+    * Re-Add Auto Update Y Feature
+
+
+* Grid Direction
+    
+    * Grid Direction will allow grids to be created as row's ( default ) or columns
+
+    * 'Column' direction will allow grids to be created *vertically*, rather than the standard horizontally. Grids will stack into new columns upon reaching the Grid's maximum height
