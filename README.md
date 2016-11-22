@@ -12,8 +12,8 @@ Garry's Mod Library for building HUD's using Grids & Columns
     * [Grids](#grids)
     * [Columns](#columns)
 * [Roadmap](#roadmap)
-* [Changelog](../blob/master/CHANGELOG.md)
-* [License](../blob/master/LICENSE)
+* [Changelog](https://github.com/TBPixel/glayout/blob/master/CHANGELOG.md)
+* [License](https://github.com/TBPixel/glayout/blob/master/LICENSE)
 
 
 ## API
