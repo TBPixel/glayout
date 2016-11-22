@@ -173,15 +173,25 @@ function Grid:GetColumnCount() return self.columns end
 -- Returns either a table containing a column or false
 function Grid:GetColumn( row, id )
 
+    -- Allows either ID or row table to be passed
+    if isnumber( row ) then
+
+        row = self:GetRow( row )
+    end
+
     -- Returns either found column as table or false
-    return true and ( self.rows[ row ].columns[ id ] ) or false
+    return true and ( row.columns[ id ] ) or false
 end
 
 
 -- Returns the number of columns in a row
-function Grid:GetRowColumnCount( id )
+function Grid:GetRowColumnCount( row )
 
-    local row = self:GetRow( id )
+    -- Allows either ID or row table to be passed
+    if isnumber( row ) then
+
+        row = self:GetRow( row )
+    end
 
     return true and #row.columns or false
 end
@@ -192,10 +202,10 @@ end
 --             --
 
 -- Returns a table containing a single row's data
-function Grid:GetRow( id )
+function Grid:GetRow( row )
 
     -- Returns either found row as table or false
-    return true and ( self.rows[ id ] ) or false
+    return true and ( self.rows[ row ] ) or false
 end
 
 
@@ -215,6 +225,14 @@ end
 
 -- Returns the width of the row ( total width of all columns )
 function Grid:GetRowWidth( row )
+
+
+    -- Allows either ID or row table to be passed
+    if isnumber( row ) then
+
+        row = self:GetRow( row )
+    end
+
 
     -- Set fallback width
     local width = 0

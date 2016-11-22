@@ -33,11 +33,6 @@ end
 -- GET METHODS --
 -----------------
 
-function Column:GetColumnWidth()
-
-    return self.columnWidth
-end
-
 
 -----------------
 -- SET METHODS --
