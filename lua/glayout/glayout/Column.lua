@@ -4,9 +4,11 @@
 Column = Base:Create()
 
 
----------------------
--- Grid Properties --
----------------------
+-----------------------
+-- Column Properties --
+-----------------------
+Column.shift = 0
+
 
 
 -----------------
@@ -33,7 +35,39 @@ end
 -- GET METHODS --
 -----------------
 
+-- Gets Column Shift Amount
+function Column:GetShift() return self.shift end
+
 
 -----------------
 -- SET METHODS --
 -----------------
+
+-- Column Additional PassProps Option
+function Column:PassProps( props )
+
+    -- Parent Method
+    Base.PassProps( self, props )
+
+    -- Set Column Shift Amount
+    if props.shift then
+
+        self:SetShift( props.shift )
+    end
+end
+
+
+-- Set Column Shift Amount
+function Column:SetShift( number )
+
+    -- Assert Argument
+    assert( isnumber( number ), 'Argumnet 1 in Column:SetShift must be a Number!' )
+
+
+    -- Set new value
+    self.shift = number
+
+
+    -- Return new value
+    return self.shift
+end

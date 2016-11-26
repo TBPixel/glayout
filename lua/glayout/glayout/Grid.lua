@@ -242,7 +242,7 @@ function Grid:GetRowWidth( row )
     self:LoopRowColumns( row, function( i, column )
 
         -- Add column width to width
-        width = width + column:GetWidth()
+        width = width + column:GetWidth() + ( column:GetShift() * self:GetWidthOfColumns() )
     end)
 
 
@@ -307,7 +307,7 @@ function Grid:Init()
 
     -- Updates Column Sizes
     self:UpdateColumnSizes()
-    
+
 
     -- Update Column Positions
     self:UpdateColumnPositions()
@@ -339,7 +339,7 @@ function Grid:LoopRowColumns( row, callback )
 
     -- Loop over columns
     for i, column in ipairs( row.columns ) do
-        
+
         -- Run callback and pass index & column
         callback( i, column )
     end
@@ -351,7 +351,7 @@ function Grid:LoopRows( callback )
 
     -- Loop over rows
     for i, row in ipairs( self.rows ) do
-        
+
         -- Run callback and pass index & value
         callback( i, row )
     end
@@ -373,10 +373,6 @@ function Grid:UpdateColumnPositions()
 
     -- Loop Over All Rows
     self:LoopRows( function( i, row )
-
-        -- Stores total width of columns thus far in row
-        local prevWidth = 0
-
 
         -- Set fallback row height
         local prevRow       = self:GetRow( i - 1 )
@@ -400,15 +396,17 @@ function Grid:UpdateColumnPositions()
             -- Update X Position of Previous
             if ( previous ) then
 
-                -- Update prevWidth
-                prevWidth = prevWidth + previous.container.width
+                -- Add X Position of previous column
+                x = x + previous:GetX()
 
-                -- Account for previous columns margin as well
-                prevWidth = prevWidth + ( previous.margin.left + previous.margin.right )
+                -- Add Width of previous column
+                x = x + previous:GetWidth()
 
+                -- Add Margins of Previous Column
+                x = x + ( previous:GetMarginLeft() + previous:GetMarginRight() )
 
-                -- Adjust column by prevWidth
-                x = x + prevWidth
+                -- Adjust for Shift Amount
+                x = x + ( column:GetShift() * self:GetWidthOfColumns() )
             end
 
             -- Set column position

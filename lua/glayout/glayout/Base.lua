@@ -47,7 +47,7 @@ function Base:Create()
 
     -- Prepare copy of Base
     local new = table.Copy( self )
-    
+
 
     -- Ensure new instance is valid
     if not IsValid( new ) then return false end
@@ -506,7 +506,7 @@ function Base:SetContainerPos( x, y )
     self:SetContainerY( y )
 end
 
-    
+
     -- Sets Container X Position
     function Base:SetContainerX( number ) self.container.x = number end
 
@@ -536,7 +536,7 @@ function Base:SetContainerSize( width, height )
     self:SetContainerHeight( height )
 end
 
-    
+
     -- Sets Container Width
     function Base:SetContainerWidth( number ) self.container.width      = number end
 
