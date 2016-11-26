@@ -385,7 +385,7 @@ function Grid:UpdateColumnPositions()
         self:LoopRowColumns( row, function( k, column )
 
             -- Local reference for x
-            local x = column.x
+            local x = column.x + ( column:GetShift() * self:GetWidthOfColumns() )
             local y = self.y + prevHeight
 
 
@@ -404,9 +404,6 @@ function Grid:UpdateColumnPositions()
 
                 -- Add Margins of Previous Column
                 x = x + ( previous:GetMarginLeft() + previous:GetMarginRight() )
-
-                -- Adjust for Shift Amount
-                x = x + ( column:GetShift() * self:GetWidthOfColumns() )
             end
 
             -- Set column position
