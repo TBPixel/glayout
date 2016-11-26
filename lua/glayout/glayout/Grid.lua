@@ -289,7 +289,15 @@ end
 -- Returns a number containing the width-per-span of the grid
 function Grid:GetWidthOfColumns()
 
-    return ( self:GetWidth() / self:GetColumnCount() )
+    local width = self:GetWidth()
+
+    -- Ensures full width of grid container is always used
+    if ( self:GetContainerWidth() >= width ) and ( self:GetMarginLeft() or self:GetMarginRight() ) then
+
+        width = width + ( self:GetMarginLeft() + self:GetMarginRight() )
+    end
+
+    return ( width / self:GetColumnCount() )
 end
 
 
@@ -385,22 +393,19 @@ function Grid:UpdateColumnPositions()
         self:LoopRowColumns( row, function( k, column )
 
             -- Local reference for x
-            local x = column.x + ( column:GetShift() * self:GetWidthOfColumns() )
-            local y = self.y + prevHeight
+            local x = self:GetX() + ( column:GetShift() * self:GetWidthOfColumns() )
+            local y = self:GetY() + prevHeight
 
 
             -- Attempt to get previous column
             local previous = self:GetColumn( i, k - 1 )
 
             -- There is a previous column
-            -- Update X Position of Previous
-            if ( previous ) then
-
-                -- Add X Position of previous column
-                x = x + previous:GetX()
+            -- Update X Position based on Previous
+            if IsValid( previous ) then
 
                 -- Add Width of previous column
-                x = x + previous:GetWidth()
+                x = x + previous:GetContainerWidth()
 
                 -- Add Margins of Previous Column
                 x = x + ( previous:GetMarginLeft() + previous:GetMarginRight() )

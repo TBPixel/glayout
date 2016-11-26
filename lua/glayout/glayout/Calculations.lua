@@ -46,33 +46,22 @@ end
         -- Set default for argument
         parent = parent or false
 
-        -- Fallback values for parent 
-        local parentMargin  = 0
-        local parentPadding = 0
-
-        -- Get Parent values
-        if parent then
-
-            parentMargin    = parent.margin.left
-            parentPadding   = parent.padding.left
-        end
-
 
         -- Store local reference to x
         local x = self.x
 
         -- Account for margin
-        x = x + self.margin.left + parentMargin + parentPadding
+        x = x + self.margin.left
 
         -- Set calculated X
-        self.node:SetContainerX( x )
+        self.node:SetContainerX( math.Round( x, 1 ) )
 
 
         -- Account for padding
         x = x + self.padding.left
 
         -- Set calculated Container X
-        self.node:SetX( x )
+        self.node:SetX( math.Round( x, 1 ) )
     end
 
     -- Calculates and updates Y Position based on Margin & Padding
@@ -81,33 +70,22 @@ end
         -- Set default for argument
         parent = parent or false
 
-        -- Fallback values for parent 
-        local parentMargin  = 0
-        local parentPadding = 0
-
-        -- Get Parent values
-        if parent then
-
-            parentMargin    = parent.margin.top
-            parentPadding   = parent.padding.top
-        end
-
 
         -- Store local reference to y
         local y = self.y
 
         -- Account for margin
-        y = y + self.margin.top + parentMargin + parentPadding
+        y = y + self.margin.top
 
         -- Set calculated Y
-        self.node:SetContainerY( y )
+        self.node:SetContainerY( math.Round( y, 1 ) )
 
 
         -- Account for padding
         y = y + self.padding.top
 
         -- Set Calculated Y Container
-        self.node:SetY( y )
+        self.node:SetY( math.Round( y, 1 ) )
     end
 
 
@@ -127,7 +105,7 @@ end
         -- Set default for argument
         parent = parent or false
 
-        -- Fallback values for parent 
+        -- Fallback values for parent
         local parentMargin  = 0
         local parentPadding = 0
 
@@ -141,8 +119,8 @@ end
             if row then count = parent:GetRowColumnCount( row ) end
 
             -- Get margin & padding / number of rows
-            parentMargin    = math.Round( ( parent.margin.left   + parent.margin.right ) / count )
-            parentPadding   = math.Round( ( parent.padding.left  + parent.padding.right ) / count )
+            parentMargin    = math.Round( ( parent.margin.left   + parent.margin.right ) / count, 1 )
+            parentPadding   = math.Round( ( parent.padding.left  + parent.padding.right ) / count, 1 )
         end
 
 
@@ -156,14 +134,14 @@ end
         width = width - parentMargin - parentPadding
 
         -- Set calculated Width
-        self.node:SetContainerWidth( width )
+        self.node:SetContainerWidth( math.Round( width, 1 ) )
 
 
         -- Account for padding
         width = width - ( self.padding.left + self.padding.right )
 
         -- Set calculated Width
-        self.node:SetWidth( width )
+        self.node:SetWidth( math.Round( width, 1 ) )
     end
 
     function GridMath:CalcHeight( parent )
@@ -171,7 +149,7 @@ end
         -- Set default for argument
         parent = parent or false
 
-        -- Fallback values for parent 
+        -- Fallback values for parent
         local parentMargin  = 0
         local parentPadding = 0
 
@@ -180,8 +158,8 @@ end
 
             local rowCount  = parent:GetRowCount()
 
-            parentMargin    = math.Round( ( parent.margin.top   + parent.margin.bottom ) / rowCount )
-            parentPadding   = math.Round( ( parent.padding.top  + parent.padding.bottom ) / rowCount )
+            parentMargin    = math.Round( ( parent.margin.top   + parent.margin.bottom ) / rowCount, 1 )
+            parentPadding   = math.Round( ( parent.padding.top  + parent.padding.bottom ) / rowCount, 1 )
         end
 
 
@@ -195,14 +173,14 @@ end
         height = height - parentMargin - parentPadding
 
         -- Set calculated Container Height
-        self.node:SetContainerHeight( height )
+        self.node:SetContainerHeight( math.Round( height, 1 ) )
 
 
         -- Account for padding
         height = height - ( self.padding.top + self.padding.bottom )
 
         -- Set calculated Height
-        self.node:SetHeight( height )
+        self.node:SetHeight( math.Round( height, 1 ) )
     end
 
 
