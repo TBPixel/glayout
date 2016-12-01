@@ -13,15 +13,11 @@ GridMath = {}
 
 function GridMath:CalcBoxModel( node, parent )
 
-    -- Initialize GridMath for this instance
-    self:Init( node )
-
-
     -- Calculate Position of Node
-    self:CalcPos( parent )
+    self:CalcPos( node )
 
     -- Calculate Size of Node
-    self:CalcSize( parent )
+    self:CalcSize( node, parent )
 end
 
 
@@ -31,76 +27,68 @@ end
 -------------------------
 
 -- Adjusts position based on margin's
-function GridMath:CalcPos( parent )
+function GridMath:CalcPos( node )
 
     -- Calculates Position X
-    self:CalcPosX( parent )
+    self:CalcPosX( node )
 
     -- Calculates Position Y
-    self:CalcPosY( parent )
+    self:CalcPosY( node )
 end
 
     -- Calculates and updates X Position based on Margin & Padding
-    function GridMath:CalcPosX( parent )
-
-        -- Set default for argument
-        parent = parent or false
-
+    function GridMath:CalcPosX( node )
 
         -- Store local reference to x
-        local x = self.x
+        local x = node:GetX()
 
         -- Account for margin
-        x = x + self.margin.left
+        x = x + node:GetMarginLeft()
 
         -- Set calculated X
-        self.node:SetContainerX( math.Round( x, 1 ) )
+        node:SetContainerX( math.Round( x, 1 ) )
 
 
         -- Account for padding
-        x = x + self.padding.left
+        x = x + node:GetPaddingLeft()
 
         -- Set calculated Container X
-        self.node:SetX( math.Round( x, 1 ) )
+        node:SetX( math.Round( x, 1 ) )
     end
 
     -- Calculates and updates Y Position based on Margin & Padding
-    function GridMath:CalcPosY( parent )
-
-        -- Set default for argument
-        parent = parent or false
-
+    function GridMath:CalcPosY( node )
 
         -- Store local reference to y
-        local y = self.y
+        local y = node:GetY()
 
         -- Account for margin
-        y = y + self.margin.top
+        y = y + node:GetMarginTop()
 
         -- Set calculated Y
-        self.node:SetContainerY( math.Round( y, 1 ) )
+        node:SetContainerY( math.Round( y, 1 ) )
 
 
         -- Account for padding
-        y = y + self.padding.top
+        y = y + node:GetPaddingTop()
 
         -- Set Calculated Y Container
-        self.node:SetY( math.Round( y, 1 ) )
+        node:SetY( math.Round( y, 1 ) )
     end
 
 
 -- Adjusts size based on Margin's & Padding
-function GridMath:CalcSize( parent )
+function GridMath:CalcSize( node, parent )
 
     -- Calculates Width
-    self:CalcWidth( parent )
+    self:CalcWidth( node, parent )
 
     -- Calculates Height
-    self:CalcHeight( parent )
+    self:CalcHeight( node, parent )
 end
 
     -- Calculates & Updates Width based on Margin & Padding
-    function GridMath:CalcWidth( parent )
+    function GridMath:CalcWidth( node, parent )
 
         -- Set default for argument
         parent = parent or false
@@ -113,38 +101,38 @@ end
         if parent then
 
             -- Get number of rows in column
-            local row       = true and self.node.row or false
+            local row       = true and node:GetRow() or false
             local count     = 1
 
             if row then count = parent:GetRowColumnCount( row ) end
 
             -- Get margin & padding / number of rows
-            parentMargin    = math.Round( ( parent.margin.left   + parent.margin.right ) / count, 1 )
-            parentPadding   = math.Round( ( parent.padding.left  + parent.padding.right ) / count, 1 )
+            parentMargin    = math.Round( ( parent:GetMarginLeft()   + parent:GetMarginRight() ) / count, 1 )
+            parentPadding   = math.Round( ( parent:GetPaddingLeft()  + parent:GetPaddingRight() ) / count, 1 )
         end
 
 
         -- Store local reference to width
-        local width = self.width
+        local width = node:GetWidth()
 
         -- Account for margins
-        width = width - ( self.margin.left + self.margin.right )
+        width = width - ( node:GetMarginLeft() + node:GetMarginRight() )
 
         -- Account for parent margin & padding
         width = width - parentMargin - parentPadding
 
         -- Set calculated Width
-        self.node:SetContainerWidth( math.Round( width, 1 ) )
+        node:SetContainerWidth( math.Round( width, 1 ) )
 
 
         -- Account for padding
-        width = width - ( self.padding.left + self.padding.right )
+        width = width - ( node:GetPaddingLeft() + node:GetPaddingRight() )
 
         -- Set calculated Width
-        self.node:SetWidth( math.Round( width, 1 ) )
+        node:SetWidth( math.Round( width, 1 ) )
     end
 
-    function GridMath:CalcHeight( parent )
+    function GridMath:CalcHeight( node, parent )
 
         -- Set default for argument
         parent = parent or false
@@ -158,55 +146,27 @@ end
 
             local rowCount  = parent:GetRowCount()
 
-            parentMargin    = math.Round( ( parent.margin.top   + parent.margin.bottom ) / rowCount, 1 )
-            parentPadding   = math.Round( ( parent.padding.top  + parent.padding.bottom ) / rowCount, 1 )
+            parentMargin    = math.Round( ( parent:GetMarginTop()   + parent:GetMarginBottom() ) / rowCount, 1 )
+            parentPadding   = math.Round( ( parent:GetPaddingTop()  + parent:GetPaddingBottom() ) / rowCount, 1 )
         end
 
 
         -- Store local reference to height
-        local height = self.height
+        local height = node:GetHeight()
 
         -- Account for margin
-        height = height - ( self.margin.top + self.margin.bottom )
+        height = height - ( node:GetMarginTop() + node:GetMarginBottom() )
 
         -- Account for parent Margin & Padding
         height = height - parentMargin - parentPadding
 
         -- Set calculated Container Height
-        self.node:SetContainerHeight( math.Round( height, 1 ) )
+        node:SetContainerHeight( math.Round( height, 1 ) )
 
 
-        -- Account for padding
-        height = height - ( self.padding.top + self.padding.bottom )
+        -- Account for paddin
+        height = height - ( node:GetPaddingTop() + node:GetPaddingBottom() )
 
         -- Set calculated Height
-        self.node:SetHeight( math.Round( height, 1 ) )
+        node:SetHeight( math.Round( height, 1 ) )
     end
-
-
-
----------------------------
--- INITIALIZATION METHOD --
----------------------------
-
--- Initialize GridMath & pass node instance
-function GridMath:Init( node )
-
-    -- Store property reference to node
-    self.node       = node
-
-    -- Store Node Margin & Padding
-    self.margin     = self.node.margin
-    self.padding    = self.node.padding
-
-    -- Store Container
-    self.container  = self.node.container
-
-    -- Store Node X & Y
-    self.x          = self.node.x
-    self.y          = self.node.y
-
-    -- Store Node Width & Height
-    self.width      = self.node.width
-    self.height     = self.node.height
-end

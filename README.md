@@ -51,14 +51,14 @@ local col = grid:CreateColumn( 6 )
         -- Let's draw our column container first
 
         -- Container's are stored in their own dictionary, but contain the same properties as a grid or column's box does ( x, y, width & height )
-        local container = self.container
+        local container = self:GetContainer()
 
         -- Pass the container properties to the draw. We'll give it a slightly transparent black color
         draw.RoundedBox( 0, container.x, container.y, container.width, container.height, Color( 0, 0, 0, 200 ) )
 
 
         -- Now let's draw our column's content
-        draw.RoundedBox( 0, self.x, self.y, self.width, self.height, Color( 255, 255, 255, 200 ) )
+        draw.RoundedBox( 0, self:GetX(), self:GetY(), self:GetWidth(), self:GetHeight(), Color( 255, 255, 255, 200 ) )
     end
 
 -- Finally, we must initialize our grid
@@ -141,8 +141,8 @@ function DrawHUD()
 
     -- Quickly create columns
     for i = 1, 2 do
-        
-        cols[i] = grid:CreateColumn( styles ) 
+
+        cols[i] = grid:CreateColumn( styles )
     end
 
 
@@ -157,7 +157,7 @@ function DrawHUD()
         armor = Lerp( 10 * FrameTime(), armor, ply:Armor() / 100 )
 
         -- Draw armor bar
-        draw.RoundedBox( 0, self.x, self.y, self.width * armor, self.height, Color( 55, 55, 55, 200 ) )
+        draw.RoundedBox( 0, self:GetX(), self:GetY(), self:GetWidth() * armor, self:GetHeight(), Color( 55, 55, 55, 200 ) )
     end
 
 
@@ -170,7 +170,7 @@ function DrawHUD()
         hp = Lerp( 10 * FrameTime(), hp, ply:Health() / ply:GetMaxHealth() )
 
         -- Draw healthbar at column starting position, width * hp & column height
-        draw.RoundedBox( 0, self.x, self.y, self.width * hp, self.height, Color( 255, 60, 60, 200 ) )
+        draw.RoundedBox( 0, self:GetX(), self:GetY(), self:GetWidth() * hp, self:GetHeight(), Color( 255, 60, 60, 200 ) )
     end
 
 
@@ -383,7 +383,7 @@ Returns true, and ensures GMod's IsValid() global method will return true for gr
 **Arguments**
 
 * Properties
-    
+
     * Used in the constructor for both grids & columns, PassProps accepts properties as a table of key->value pairs, and runs methods based on passed data.
 
 ---
@@ -393,19 +393,19 @@ Returns true, and ensures GMod's IsValid() global method will return true for gr
 **Arguments**
 
 * Top
-    
+
     * Sets the margin top of the instance
 
 * Right
-    
+
     * Sets the margin right of the instance
 
 * Bottom
-    
+
     * Sets the margin bottom of the instance
 
 * Left
-    
+
     * Sets the margin left of the instance
 
 ---
@@ -415,7 +415,7 @@ Returns true, and ensures GMod's IsValid() global method will return true for gr
 **Arguments**
 
 * Top
-    
+
     *Sets the margin top of the instance
 
 ---
@@ -425,7 +425,7 @@ Returns true, and ensures GMod's IsValid() global method will return true for gr
 **Arguments**
 
 * Right
-    
+
     *Sets the margin right of the instance
 
 ---
@@ -435,7 +435,7 @@ Returns true, and ensures GMod's IsValid() global method will return true for gr
 **Arguments**
 
 * Bottom
-    
+
     *Sets the margin bottom of the instance
 
 ---
@@ -445,7 +445,7 @@ Returns true, and ensures GMod's IsValid() global method will return true for gr
 **Arguments**
 
 * Left
-    
+
     *Sets the margin left of the instance
 
 ---
@@ -456,19 +456,19 @@ Returns true, and ensures GMod's IsValid() global method will return true for gr
 **Arguments**
 
 * Top
-    
+
     * Sets the padding top of the instance
 
 * Right
-    
+
     * Sets the padding right of the instance
 
 * Bottom
-    
+
     * Sets the padding bottom of the instance
 
 * Left
-    
+
     * Sets the padding left of the instance
 
 ---
@@ -478,7 +478,7 @@ Returns true, and ensures GMod's IsValid() global method will return true for gr
 **Arguments**
 
 * Top
-    
+
     *Sets the padding top of the instance
 
 ---
@@ -488,7 +488,7 @@ Returns true, and ensures GMod's IsValid() global method will return true for gr
 **Arguments**
 
 * Right
-    
+
     *Sets the padding right of the instance
 
 ---
@@ -498,7 +498,7 @@ Returns true, and ensures GMod's IsValid() global method will return true for gr
 **Arguments**
 
 * Bottom
-    
+
     *Sets the padding bottom of the instance
 
 ---
@@ -508,7 +508,7 @@ Returns true, and ensures GMod's IsValid() global method will return true for gr
 **Arguments**
 
 * Left
-    
+
     *Sets the padding left of the instance
 
 ---
@@ -520,7 +520,7 @@ Mostly used internally. Shouldn't have to touch.
 **Arguments**
 
 * X
-    
+
     * Sets X position of instance container
 
 * Y
@@ -535,7 +535,7 @@ Mostly used internally. Shouldn't have to touch.
 **Arguments**
 
 * X
-    
+
     * Sets X position of instance container
 
 ---
@@ -547,7 +547,7 @@ Mostly used internally. Shouldn't have to touch.
 **Arguments**
 
 * Y
-    
+
     * Sets Y position of instance container
 
 ---
@@ -602,7 +602,7 @@ Mostly used internally. Shouldn't have to touch.
     * Sets the X position of the instance
 
 * Y
-    
+
     * Sets the Y position of the instance
 
 ---
@@ -612,7 +612,7 @@ Mostly used internally. Shouldn't have to touch.
 **Arguments**
 
 * X
-    
+
     * Sets the X position of the instance
 
 ---
@@ -622,7 +622,7 @@ Mostly used internally. Shouldn't have to touch.
 **Arguments**
 
 * Y
-    
+
     * Sets the Y position of the instance
 
 ---
@@ -672,7 +672,7 @@ Mostly used internally. Shouldn't have to touch.
 **Arguments**
 
 * *Optional* Properties
-    
+
     * If set, allows grid properties to be passed through a table of key->value pairs
 
 ---
@@ -688,11 +688,11 @@ Creates a new row and returns it's id. Used internally.
 **Arguments**
 
 * *Number* Span
-    
+
     * If argument is a number, tells the new column how many grid columns to span
 
 * *Table* Properties
-    
+
     * If argument is a table, properties will be passed to column as key->value pairs
 
     * *NOTE*: the 'span' property is **required** when passing a table
@@ -722,7 +722,7 @@ Returns the column found within a row, or false if not found
     * The Row id or Row Table to search
 
 * id
-    
+
     * The column id to find
 
 ---
@@ -815,7 +815,7 @@ Runs the given callback on all columns within the grid.
 **Callback Arguments**
 
 * i
-    
+
     * The index of the column current in the loop
 
 * Column
@@ -842,7 +842,7 @@ Runs the given callback on all columns within the given row
 **Callback Arguments**
 
 * i
-    
+
     * The index of the column current in the loop
 
 * Column
@@ -865,7 +865,7 @@ Runs the given callback on all rows
 **Callback Arguments**
 
 * i
-    
+
     * The index of the row current in the loop
 
 * Row
@@ -900,27 +900,92 @@ Returns a new column instance for creating. Used by Grid:CreateColumn.
 
 *NOTE*: Grid:CreateColumn performs all of the work for sizing and positioning, and simply refers to this method for instantiation.
 
+---
+
+##### Column:GetRow()
+
+Returns the columns row index as a number. Used internally
+
+---
+
+##### Column:GetRowPos()
+
+Returns the columns position in it's row. Used internally
+
+Eg. Column 1 in a row would have a row position of 1. Column 2 would be 2, etc for each row
+
+---
+
+##### Column:GetShift()
+
+Returns the columns shift amount as a number. Used internally
+
+---
+
+##### Column:SetRow( Number row )
+
+Passes the columns row index to store for reference later. Used internally
+
+**Arguments**
+
+* Row
+
+    * A number value containing the rows index within the Grid
+
+---
+
+##### Column:SetRowPos( Number rowPos )
+
+Passes the row's column index to store for reference later. Used internally
+
+**Arguments**
+
+* RowPos
+
+    * A number value containing columns index within a row
+
+---
+
+##### Column:SetShift( Number shift )
+
+Sets an offset on the column ( based on the column width ) by *shift* amount
+
+**Arguments**
+
+* Shift
+
+    * A number value, positive or negative, containing the offset amount in grid-columns
 
 
 <br />
 
 ## Roadmap
 
-* Grid Column Shift
-
-    * Re-Add Column Shift Feature
-
 
 * Grid Auto Update Y
-    
+
     * Re-Add Auto Update Y Feature
 
 
 * Grid Direction
-    
+
     * Grid Direction will allow grids to be created as row's ( default ) or columns
 
     * 'Column' direction will allow grids to be created *vertically*, rather than the standard horizontally. Grids will stack into new columns upon reaching the Grid's maximum height
+
+
+* ~~0.3.1 - Closure Update~~
+
+    * All classes of GLayout will use a closure system to ensure the protection of properties
+
+    * This means metamethods such as INSTANCE:GetWidth() are required, because INSTANCE.width will return nil
+
+    * This gives development more freedom to perform more complex changes, as I'm assured as to how the public api of GLayout will be used
+
+
+* ~~Grid Column Shift~~
+
+    * Re-Add Column Shift Feature
 
 
 * ~~0.3.0 - Refactoring~~
@@ -938,7 +1003,7 @@ Returns a new column instance for creating. Used by Grid:CreateColumn.
 
 
 * ~~0.2.0 - Columns Stacking~~
-    
+
     * Columns whose width, when added onto the rest of the current row, exceed the maximum width of the grid should stack
 
 
@@ -948,7 +1013,7 @@ Returns a new column instance for creating. Used by Grid:CreateColumn.
 
 
 * ~~0.1.2 - Row Removal~~
-    
+
     * Row's have been removed as the stacking update will simplify what problems rows were intended to solve
 
 

@@ -1,3 +1,16 @@
+## 0.3.1
+
+### The Closure Update
+
+Between many bugfixes, some calculation changes & the switch to a Closure Class approach, 0.3.1 earned it's place as a proper update.
+
+While not adding many features, 0.3.1 modified how GLayout could be interacted with, and how it interacted with itself as well.
+GLayout now *requires* the use of methods to access properties ( eg. column.x will be nil. column:GetX() will be the x co-ordinate ).
+
+This change was put in place to control how GLayout could be interacted with, and in-turn allows me to perform more complex interactions
+on individual methods, rest assured that they now must be used to use GLayout.
+
+
 ## 0.3.0
 
 ### The Refactoring Update

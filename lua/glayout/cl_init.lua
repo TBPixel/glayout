@@ -36,7 +36,7 @@ function DrawHUD()
     local colStyles =
     {
         -- Set columns to span
-        span    = 6,
+        span    = 3,
         -- Set Size of column
         size    =
         {
@@ -48,7 +48,6 @@ function DrawHUD()
 
     -- Draw First Column
     cols[1] = grid:CreateColumn( colStyles )
-        cols[1]:SetMarginRight( 10 )
         cols[1].Draw = function( self )
 
             -- Linear Interpolation on Health Bar
@@ -56,17 +55,16 @@ function DrawHUD()
 
             -- Draw healthbar at column starting position, width * hp & column height
             -- Give it a faded red colour
-            draw.RoundedBox( 0, self.x, self.y, self.width * hp, self.height, Color( 255, 60, 60, 200 ) )
+            draw.RoundedBox( 0, self:GetX(), self:GetY(), self:GetWidth() * hp, self:GetHeight(), Color( 255, 60, 60, 200 ) )
         end
 
-
+    colStyles.shift = 6
     -- Draw First Column
     cols[2] = grid:CreateColumn( colStyles )
-        cols[2]:SetMarginLeft( 10 )
         cols[2].Draw = function( self )
 
             -- Give it a faded black colour
-            draw.RoundedBox( 0, self.x, self.y, self.width, self.height, Color( 255, 255, 255, 200 ) )
+            draw.RoundedBox( 0, self:GetX(), self:GetY(), self:GetWidth(), self:GetHeight(), Color( 0, 0, 0, 200 ) )
         end
 
 
