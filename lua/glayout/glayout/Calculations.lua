@@ -66,14 +66,14 @@ end
         y = y + node:GetMarginTop()
 
         -- Set calculated Y
-        node:SetContainerY( math.Round( y, 1 ) )
+        node:SetContainerY( math.ceil( y ) )
 
 
         -- Account for padding
         y = y + node:GetPaddingTop()
 
         -- Set Calculated Y Container
-        node:SetY( math.Round( y, 1 ) )
+        node:SetY( math.ceil( y ) )
     end
 
 
@@ -161,12 +161,12 @@ end
         height = height - parentMargin - parentPadding
 
         -- Set calculated Container Height
-        node:SetContainerHeight( math.Round( height, 1 ) )
+        node:SetContainerHeight( math.ceil( height ) )
 
 
         -- Account for paddin
         height = height - ( node:GetPaddingTop() + node:GetPaddingBottom() )
 
         -- Set calculated Height
-        node:SetHeight( math.Round( height, 1 ) )
+        node:SetHeight( math.ceil( height ) )
     end
